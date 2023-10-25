@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="406.18384"
+   height="94.726318"
+   viewBox="0 0 406.18384 94.726318"
+   version="1.1"
+   id="svg1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px" />
+  <defs
+     id="defs1">
+    <rect
+       x="170.76154"
+       y="93.34964"
+       width="590.8349"
+       height="294.84824"
+       id="rect1" />
+  </defs>
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-2.8367529,-222.46753)">
+    <text
+       xml:space="preserve"
+       id="text1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:133.333px;font-family:Bahnschrift;-inkscape-font-specification:Bahnschrift;white-space:pre;shape-inside:url(#rect1);fill:#4e5140;fill-opacity:1"
+       transform="translate(-176.45359,101.31851)"
+       inkscape:export-filename="text1.png"
+       inkscape:export-xdpi="75"
+       inkscape:export-ydpi="75"><tspan
+         x="170.76172"
+         y="215.87534"
+         id="tspan2"><tspan
+           style="font-weight:600;font-stretch:semi-condensed;-inkscape-font-specification:'Bahnschrift Semi-Bold Semi-Condensed'"
+           id="tspan1">NAVBAR</tspan></tspan></text>
+  </g>
+</svg>

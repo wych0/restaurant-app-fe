@@ -1,0 +1,20 @@
+.btn-reservation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  text-transform: uppercase;
+  line-height: 40px;
+  font-size: 18px;
+  z-index: 80;
+  border-radius: 0;
+  font-weight: 500;
+  color: #4e5140;
+}
+
+.btn-reservation:hover {
+  background-color: rgba(78, 81, 64, 0.6);
+  border: 1px solid white;
+  color: white;
+}

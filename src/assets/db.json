@@ -1,0 +1,39 @@
+{
+  "dishes": [
+    {
+      "id": 1,
+      "name": "Salami",
+      "ingredients": "tomato sauce, mozzarella, salami",
+      "price": 40,
+      "type": "Pizza"
+    },
+    {
+      "id": 2,
+      "name": "Margarita",
+      "ingredients": "tomato sauce, mozzarella",
+      "price": 36,
+      "type": "Pizza"
+    },
+    {
+      "id": 3,
+      "name": "Margarita",
+      "ingredients": "tomato sauce, mozzarella",
+      "price": 36,
+      "type": "Pizza"
+    },
+    {
+      "id": 4,
+      "name": "Bruschetta",
+      "ingredients": "creamy goat cheese, prosciutto crudo, grana padano",
+      "price": 30,
+      "type": "Appetizer"
+    },
+    {
+      "id": 5,
+      "name": "Cremy onion soup",
+      "ingredients": "with croutons and cheese",
+      "price": 30,
+      "type": "Soup"
+    }
+  ]
+}

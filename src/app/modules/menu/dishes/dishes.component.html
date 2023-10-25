@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row text-center">
+    <ng-container *ngFor="let dish of dishes">
+      <div class="col">
+        <span class="text dish name">{{ dish.name }}</span>
+        <span class="text dish price">{{ dish.price }}</span> <br />
+        <span class="text dish ingredients">{{ dish.ingredients }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>
