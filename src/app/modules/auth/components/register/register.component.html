@@ -1,1 +1,60 @@
-<p>register works!</p>
+<form appFocusInvalidInput [formGroup]="registerForm" (submit)="onSubmit()">
+  <h1 class="text-primary text-center">Are you new?</h1>
+  <h6 class="text-center">Register using form below</h6>
+  <div class="form-field input-field">
+    <label class="form-label">Email address</label>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="email"
+      placeholder="name@address.com"
+      [class.is-invalid]="
+        (registerForm.controls.email.invalid &&
+          registerForm.controls.email.touched) ||
+        (submitted && registerForm.controls.email.invalid)
+      "
+    />
+    <div
+      *ngIf="
+        (registerForm.controls.email.invalid &&
+          registerForm.controls.email.touched) ||
+        (submitted && registerForm.controls.email.invalid)
+      "
+      class="text-danger"
+    >
+      <small> {{ getErrorMessage(registerForm.controls.email) }}</small>
+    </div>
+  </div>
+  <div class="form-field input-field">
+    <label class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      formControlName="password"
+      placeholder="Enter your password"
+      [class.is-invalid]="
+        (registerForm.controls.password.invalid &&
+          registerForm.controls.password.touched) ||
+        (submitted && registerForm.controls.password.invalid)
+      "
+    />
+    <div
+      *ngIf="
+        (registerForm.controls.password.invalid &&
+          registerForm.controls.password.touched) ||
+        (submitted && registerForm.controls.password.invalid)
+      "
+      class="text-danger"
+    >
+      <small>
+        {{ getErrorMessage(registerForm.controls.password) }}
+      </small>
+    </div>
+  </div>
+  <div class="form-field">
+    <button class="btn btn-primary mx-4 mt-3" type="submit">Register</button>
+  </div>
+  <p class="text-center mt-2">
+    Alredy registered? <a routerLink="/auth/login">Sign in</a>
+  </p>
+</form>

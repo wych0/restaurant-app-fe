@@ -1,0 +1,46 @@
+.wrapper {
+  margin-top: 125px;
+  padding: 0 20px;
+}
+
+.row {
+  width: 1000px;
+  height: 525px;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.side-image {
+  background-image: url("../../side-image-login-form.jpg");
+  background-position: bottom 10% right 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 6px 0 0 6px;
+  flex-basis: 60%;
+}
+
+.side-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-basis: 40%;
+}
+
+@media (max-width: 991.2px) {
+  .side-image {
+    border-radius: 6px 6px 0 0;
+  }
+  .wrapper {
+    margin-top: 100px;
+  }
+
+  .side-form,
+  .side-image {
+    flex-basis: 100%;
+  }
+  .side-image {
+    height: 30%;
+  }
+}

@@ -1,11 +1,4 @@
 @media (max-width: 991px) {
-  // .navbar-collapse {
-  //   height: 100vh;
-  // }
-  // .navbar-collapse ul {
-  //   height: 100vh;
-  // }
-
   .navbar-collapse.show {
     height: calc(100vh - 56px);
     transition: height 0.5s ease;
@@ -14,14 +7,6 @@
     height: 0;
     transition: height 0.35s ease;
   }
-  // .navbar-collapse.show {
-  //   height: calc(100vh - 56px);
-  //   transition: height 0.35s ease;
-  // }
-  // .navbar-collapse.collapsing {
-  //   height: 0;
-  //   transition: height 0.35s ease;
-  // }
 }
 
 .navbar {

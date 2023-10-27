@@ -3,23 +3,22 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormErrorService } from 'src/app/modules/core/services/form-error-service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss', '../../common-styles.scss'],
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss', '../../common-styles.scss'],
 })
-export class LoginComponent {
+export class ForgotPasswordComponent {
   submitted: boolean = false;
-  loginForm = new FormGroup({
+  recoverForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
   });
 
   constructor(private formErrorService: FormErrorService) {}
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+    if (this.recoverForm.valid) {
+      console.log(this.recoverForm.value);
     }
   }
 

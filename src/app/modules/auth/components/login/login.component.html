@@ -1,51 +1,59 @@
-<div class="wrapper">
-  <div class="container main">
-    <div class="row shadow">
-      <div class="col-md-6 side-image"></div>
-      <div class="col-md-6 side-form">
-        <form [formGroup]="loginForm" (submit)="onSubmit()" class="login-form">
-          <h1 class="text-primary">Welcome</h1>
-          <div class="input-field">
-            <label class="form-label">Email address</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="email"
-              placeholder="name@address.com"
-              [class.is-invalid]="
-                loginForm.controls.email.invalid &&
-                loginForm.controls.email.touched
-              "
-            />
-            <div
-              *ngIf="
-                loginForm.controls.email.invalid &&
-                loginForm.controls.email.touched
-              "
-              class="text-danger"
-            >
-              <small>Please provide a valid email.</small>
-            </div>
-          </div>
-          <div class="input-field">
-            <label class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              placeholder="Enter your password"
-            />
-            <div class="invalid-feedback">Please provide a valid city.</div>
-          </div>
-          <div class="input-field">
-            <a href="">Forgot your password?</a>
-            <button class="btn btn-primary px-5" type="submit">Login</button>
-          </div>
-          <div class="input-field text-center">
-            <p>Don't have an account? <a href="">Sign up.</a></p>
-          </div>
-        </form>
-      </div>
+<form appFocusInvalidInput [formGroup]="loginForm" (submit)="onSubmit()">
+  <h1 class="text-primary text-center">Welcome back</h1>
+  <h6 class="text-center">Login using your email and password</h6>
+  <div class="form-field input-field">
+    <label class="form-label">Email address</label>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="email"
+      placeholder="name@address.com"
+      [class.is-invalid]="
+        (loginForm.controls.email.invalid &&
+          loginForm.controls.email.touched) ||
+        (submitted && loginForm.controls.email.invalid)
+      "
+    />
+    <div
+      *ngIf="
+        (loginForm.controls.email.invalid &&
+          loginForm.controls.email.touched) ||
+        (submitted && loginForm.controls.email.invalid)
+      "
+      class="text-danger"
+    >
+      <small> {{ getErrorMessage(loginForm.controls.email) }}</small>
     </div>
   </div>
-</div>
+  <div class="form-field input-field">
+    <label class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      formControlName="password"
+      placeholder="Enter your password"
+      [class.is-invalid]="
+        (loginForm.controls.password.invalid &&
+          loginForm.controls.password.touched) ||
+        (submitted && loginForm.controls.password.invalid)
+      "
+    />
+    <div
+      *ngIf="
+        (loginForm.controls.password.invalid &&
+          loginForm.controls.password.touched) ||
+        (submitted && loginForm.controls.password.invalid)
+      "
+      class="text-danger"
+    >
+      <small> {{ getErrorMessage(loginForm.controls.password) }}</small>
+    </div>
+    <a routerLink="/auth/recover">Forgot your password?</a>
+  </div>
+  <div class="form-field">
+    <button class="btn btn-primary mx-4 mt-3" type="submit">Login</button>
+  </div>
+  <p class="text-center mt-2">
+    Don't have an account? <a routerLink="/auth/register">Sign up</a>
+  </p>
+</form>

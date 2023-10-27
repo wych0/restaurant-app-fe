@@ -5,7 +5,6 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './modules/auth/auth.module';
 import { CoreModule } from './modules/core/core.module';
 
 @NgModule({
@@ -13,7 +12,6 @@ import { CoreModule } from './modules/core/core.module';
   imports: [
     BrowserModule,
     CoreModule,
-    AuthModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
