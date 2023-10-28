@@ -1,0 +1,17 @@
+.swiper {
+  width: 100%;
+}
+
+.swiper-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+swiper-container {
+  --swiper-pagination-color: #4e5140;
+  --swiper-pagination-bullet-inactive-color: white;
+  --swiper-navigation-color: #4e5140;
+  --swiper-navigation-size: 50px;
+}

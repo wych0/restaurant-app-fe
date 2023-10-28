@@ -4,9 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReservationButtonComponent } from './components/reservation-button/reservation-button.component';
 import { MaterialModule } from './material/material.module';
 import { FocusInvalidInputDirective } from './directives/focus-invalid-input.directive';
+import { SwiperDirective } from './directives/swiper.directive';
 
 @NgModule({
-  declarations: [ReservationButtonComponent, FocusInvalidInputDirective],
+  declarations: [
+    ReservationButtonComponent,
+    FocusInvalidInputDirective,
+    SwiperDirective,
+  ],
   imports: [CommonModule, ReactiveFormsModule, MaterialModule],
   exports: [
     CommonModule,
@@ -15,6 +20,7 @@ import { FocusInvalidInputDirective } from './directives/focus-invalid-input.dir
     ReactiveFormsModule,
     ReservationButtonComponent,
     FocusInvalidInputDirective,
+    SwiperDirective,
   ],
 })
 export class SharedModule {}
