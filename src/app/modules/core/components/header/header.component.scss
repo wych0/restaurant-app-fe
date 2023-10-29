@@ -1,28 +1,54 @@
-@media (max-width: 991px) {
-  .navbar-collapse.show {
-    height: calc(100vh - 56px);
-    transition: height 0.5s ease;
-  }
-  .navbar-collapse.collapsing {
-    height: 0;
-    transition: height 0.35s ease;
-  }
+.navbar {
+  padding: 1rem 3rem;
 }
 
-.navbar {
-  padding: 0.5rem 1rem;
+.nav-link.active,
+.nav-link:hover {
+  background-color: rgba(78, 81, 64, 0.9);
+  color: white;
+}
+
+.nav-link {
+  line-height: 35px;
+  padding: 0;
+  background-color: #f3f2f1;
+  margin: 2px 0;
+  width: 100px;
 }
 
 a.nav-link,
 a.navbar-brand {
+  text-align: center;
   color: #4e5140;
 }
 
 .nav-item {
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .navbar-brand {
   padding: 0;
+}
+
+.navbar-collapse.collapse.show,
+.navbar,
+.container-fluid {
+  max-height: 76px;
+}
+
+.nav-item,
+.navbar-nav {
+  margin: 0 0 0 auto;
+  width: 100px;
+}
+
+.navbar-collapse.collapse.show {
+  max-height: 0px;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.5rem 0;
+  }
 }

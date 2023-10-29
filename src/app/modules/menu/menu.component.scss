@@ -7,4 +7,15 @@
 
 .nav-link {
   color: #4e5140;
+  border-radius: 0;
+  line-height: 35px;
+  padding: 0;
+  background-color: #f3f2f1;
+  width: 100px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  background-color: rgba(78, 81, 64, 0.9);
+  color: white;
 }

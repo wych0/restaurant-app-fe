@@ -1,6 +1,5 @@
 <form appFocusInvalidInput [formGroup]="registerForm" (submit)="onSubmit()">
-  <h1 class="text-primary text-center">Are you new?</h1>
-  <h6 class="text-center">Register using form below</h6>
+  <h1 class="text-primary text-center">Register</h1>
   <div class="form-field input-field">
     <label class="form-label">Email address</label>
     <input
@@ -51,10 +50,10 @@
       </small>
     </div>
   </div>
-  <div class="form-field">
-    <button class="btn btn-primary mx-4 mt-3" type="submit">Register</button>
+  <div class="form-field button">
+    <button class="btn btn-primary mx-4 mt-1" type="submit">Register</button>
   </div>
-  <p class="text-center mt-2">
+  <p class="text-center mt-2 mb-0">
     Alredy registered? <a routerLink="/auth/login">Sign in</a>
   </p>
 </form>

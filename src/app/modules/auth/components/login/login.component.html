@@ -1,6 +1,5 @@
 <form appFocusInvalidInput [formGroup]="loginForm" (submit)="onSubmit()">
-  <h1 class="text-primary text-center">Welcome back</h1>
-  <h6 class="text-center">Login using your email and password</h6>
+  <h1 class="text-primary text-center login">Log in</h1>
   <div class="form-field input-field">
     <label class="form-label">Email address</label>
     <input
@@ -48,12 +47,14 @@
     >
       <small> {{ getErrorMessage(loginForm.controls.password) }}</small>
     </div>
-    <a routerLink="/auth/recover">Forgot your password?</a>
   </div>
   <div class="form-field">
-    <button class="btn btn-primary mx-4 mt-3" type="submit">Login</button>
+    <button class="btn btn-primary mx-4 mt-1" type="submit">Login</button>
   </div>
-  <p class="text-center mt-2">
+  <p class="text-center mt-2 mb-0">
     Don't have an account? <a routerLink="/auth/register">Sign up</a>
+  </p>
+  <p class="text-center mb-0">
+    <a routerLink="/auth/recover">Forgot your password?</a>
   </p>
 </form>

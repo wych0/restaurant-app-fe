@@ -5,7 +5,7 @@
 
 .row {
   width: 1000px;
-  height: 525px;
+  height: 550px;
   border-radius: 6px;
   background-color: white;
 }
@@ -31,16 +31,17 @@
 @media (max-width: 991.2px) {
   .side-image {
     border-radius: 6px 6px 0 0;
+    height: 30%;
   }
   .wrapper {
-    margin-top: 100px;
+    margin-top: 80px;
   }
 
   .side-form,
   .side-image {
     flex-basis: 100%;
   }
-  .side-image {
-    height: 30%;
+  .side-form {
+    margin-bottom: 40px;
   }
 }

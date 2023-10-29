@@ -18,19 +18,29 @@ export class SwiperComponent {
 
   public config: SwiperOptions = {
     navigation: true,
-    slidesPerView: 3,
-    spaceBetween: 20,
     breakpoints: {
       320: {
         slidesPerView: 1.2,
         spaceBetween: 20,
       },
-      768: {
-        slidesPerView: 2,
+      480: {
+        slidesPerView: 1.5,
         spaceBetween: 20,
       },
-      1280: {
-        slidesPerView: 3,
+      768: {
+        slidesPerView: 1.7,
+        spaceBetween: 20,
+      },
+      992: {
+        slidesPerView: 2.1,
+        spaceBetween: 20,
+      },
+      1200: {
+        slidesPerView: 2.5,
+        spaceBetween: 20,
+      },
+      1600: {
+        slidesPerView: 3.5,
         spaceBetween: 20,
       },
     },
