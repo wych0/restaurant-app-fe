@@ -1,12 +1,13 @@
 <form appFocusInvalidInput [formGroup]="loginForm" (submit)="onSubmit()">
   <h1 class="text-primary text-center login">Log in</h1>
   <div class="form-field input-field">
-    <label class="form-label">Email address</label>
+    <label class="form-label" for="emailInput">Email address</label>
     <input
       type="text"
       class="form-control"
       formControlName="email"
       placeholder="name@address.com"
+      id="emailInput"
       [class.is-invalid]="
         (loginForm.controls.email.invalid &&
           loginForm.controls.email.touched) ||
@@ -25,12 +26,13 @@
     </div>
   </div>
   <div class="form-field input-field">
-    <label class="form-label">Password</label>
+    <label class="form-label" for="passwordInput">Password</label>
     <input
       type="password"
       class="form-control"
       formControlName="password"
       placeholder="Enter your password"
+      id="passwordInput"
       [class.is-invalid]="
         (loginForm.controls.password.invalid &&
           loginForm.controls.password.touched) ||
@@ -52,9 +54,14 @@
     <button class="btn btn-primary mx-4 mt-1" type="submit">Login</button>
   </div>
   <p class="text-center mt-2 mb-0">
-    Don't have an account? <a routerLink="/auth/register">Sign up</a>
+    Don't have an account?
+    <a href="javascript:void(0);" (click)="changeDisplay(allDisplays.REGISTER)"
+      >Sign up</a
+    >
   </p>
   <p class="text-center mb-0">
-    <a routerLink="/auth/recover">Forgot your password?</a>
+    <a href="javascript:void(0);" (click)="changeDisplay(allDisplays.RECOVER)"
+      >Forgot your password?</a
+    >
   </p>
 </form>

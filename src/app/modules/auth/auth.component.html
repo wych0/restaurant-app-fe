@@ -3,7 +3,18 @@
     <div class="row shadow">
       <div class="col-md-6 side-image"></div>
       <div class="col-md-6 side-form">
-        <router-outlet></router-outlet>
+        <app-login
+          (changeComponent)="changeDisplay($event)"
+          *ngIf="display === allDisplays.LOGIN"
+        ></app-login>
+        <app-register
+          (changeComponent)="changeDisplay($event)"
+          *ngIf="display === allDisplays.REGISTER"
+        ></app-register>
+        <app-forgot-password
+          (changeComponent)="changeDisplay($event)"
+          *ngIf="display === allDisplays.RECOVER"
+        ></app-forgot-password>
       </div>
     </div>
   </div>

@@ -1,7 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormErrorService } from 'src/app/modules/core/services/form-error-service';
+import { Display } from '../../constants/display.enum';
 
 const enterTransition = transition(':enter', [
   style({
@@ -18,7 +19,9 @@ const fadeIn = trigger('fadeIn', [enterTransition]);
   animations: [fadeIn],
 })
 export class LoginComponent {
+  @Output() changeComponent = new EventEmitter<Display>();
   submitted: boolean = false;
+  allDisplays = Display;
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
@@ -31,6 +34,10 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
     }
+  }
+
+  changeDisplay(newDisplay: Display): void {
+    this.changeComponent.emit(newDisplay);
   }
 
   getErrorMessage(control: FormControl) {
