@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Dish } from 'src/app/modules/core/models/dish.model';
-import { DishesService } from 'src/app/modules/core/services/dishes.service';
+import { DishTypes } from './constants/dish-types.enum';
 
 @Component({
   selector: 'app-menu',
@@ -8,16 +7,7 @@ import { DishesService } from 'src/app/modules/core/services/dishes.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
-  dishes: Dish[] = [];
-  pizzas: Dish[] = [];
-  appetizers: Dish[] = [];
+  dishTypes = DishTypes;
 
-  constructor(private dishesService: DishesService) {}
-
-  ngOnInit(): void {
-    this.dishesService.getDishes().subscribe((dishes) => {
-      this.pizzas = dishes.filter((dish) => dish.type === 'Pizza');
-      this.appetizers = dishes.filter((dish) => dish.type === 'Appetizer');
-    });
-  }
+  constructor() {}
 }

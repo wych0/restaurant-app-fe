@@ -5,14 +5,25 @@ import { ReservationButtonComponent } from './components/reservation-button/rese
 import { MaterialModule } from './material/material.module';
 import { FocusInvalidInputDirective } from './directives/focus-invalid-input.directive';
 import { SwiperDirective } from './directives/swiper.directive';
+import { ReservationModalComponent } from './components/reservation-button/reservation-modal/reservation-modal.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @NgModule({
   declarations: [
     ReservationButtonComponent,
     FocusInvalidInputDirective,
     SwiperDirective,
+    ReservationModalComponent,
+    SpinnerComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    FormsModule,
+    NgxMaskDirective,
+  ],
   exports: [
     CommonModule,
     MaterialModule,
@@ -21,6 +32,7 @@ import { SwiperDirective } from './directives/swiper.directive';
     ReservationButtonComponent,
     FocusInvalidInputDirective,
     SwiperDirective,
+    SpinnerComponent,
   ],
 })
 export class SharedModule {}

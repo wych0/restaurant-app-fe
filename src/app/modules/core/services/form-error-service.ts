@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
   providedIn: 'root',
 })
 export class FormErrorService {
-  getErrorMessage(control: FormControl) {
+  getErrorMessage(control: FormControl, name?: string) {
     if (control.hasError('required')) {
       return 'This field is required.';
     }
@@ -15,6 +15,19 @@ export class FormErrorService {
     if (control.hasError('minlength')) {
       return 'At least 8 chars.';
     }
+    if (control.hasError('mask')) {
+      return `Invalid ${name}.`;
+    }
     return;
+  }
+
+  controlInvalid(control: FormControl, submitted: boolean) {
+    if (
+      (control.invalid && control.touched) ||
+      (submitted && control.invalid)
+    ) {
+      return true;
+    }
+    return false;
   }
 }

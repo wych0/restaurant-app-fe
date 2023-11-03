@@ -43,4 +43,8 @@ export class LoginComponent {
   getErrorMessage(control: FormControl) {
     return this.formErrorService.getErrorMessage(control);
   }
+
+  checkControlInvalid(control: FormControl) {
+    return this.formErrorService.controlInvalid(control, this.submitted);
+  }
 }

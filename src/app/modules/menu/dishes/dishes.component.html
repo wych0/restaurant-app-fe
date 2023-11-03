@@ -1,8 +1,12 @@
+<div
+  class="image"
+  [style.background-image]="'url(assets/jpg/dishes/' + type + '.jpg)'"
+></div>
 <div class="container">
-  <div class="row text-center">
+  <div class="dishes-container d-flex flex-wrap justify-content-around">
     <ng-container *ngFor="let dish of dishes">
-      <div class="col">
-        <span class="text dish name">{{ dish.name }}</span>
+      <div class="dish-container m-2 align">
+        <span class="text text-primary dish name">{{ dish.name }}</span>
         <span class="text dish price">{{ dish.price }}</span> <br />
         <span class="text dish ingredients">{{ dish.ingredients }}</span>
       </div>

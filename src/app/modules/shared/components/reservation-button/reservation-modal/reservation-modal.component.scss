@@ -1,0 +1,76 @@
+.inline-calendar-card {
+  width: 300px;
+}
+
+.container.calendar {
+  flex-basis: 100%;
+}
+
+.container-hours {
+  flex-basis: 100%;
+  max-width: 600px;
+  min-height: 150px;
+}
+
+.form-select {
+  width: 250px;
+  height: 50px;
+}
+
+.btn-hour {
+  color: #4e5140;
+  box-shadow: 0 0 5px rgba(78, 81, 64, 0.5);
+  border: 1px solid rgba(78, 81, 64, 0.5);
+  min-width: 150px;
+}
+
+.btn-hour:hover {
+  color: white;
+  background-color: #4e5140;
+}
+
+.btn-back {
+  float: left;
+}
+
+.reservation-details {
+  font-size: 1.2rem;
+}
+
+strong {
+  font-weight: 500;
+  color: black;
+}
+
+.modal-header {
+  position: sticky;
+  top: 0;
+  background-color: inherit;
+  z-index: 100;
+}
+
+form {
+  width: 90%;
+  box-sizing: border-box;
+}
+
+.form-field {
+  width: 300px;
+}
+
+.modal-footer {
+  min-height: 60px;
+}
+
+.text-area {
+  width: 600px;
+}
+
+.container-additional-options {
+  width: 600px;
+  padding: 0 20px;
+}
+
+.form-control::placeholder {
+  text-transform: none;
+}

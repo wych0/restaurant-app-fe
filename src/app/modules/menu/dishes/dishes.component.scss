@@ -1,8 +1,49 @@
-.text.dish.name {
-  //   text-transform: uppercase;
-  //   font-size: 1.5rem;
+.image {
+  background-position: bottom 40% right 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 250px;
 }
 
-.col {
-  min-width: 300px;
+.dish-container {
+  width: 350px;
+}
+
+.text {
+  float: left;
+  font-size: 28px;
+}
+
+.text.dish.name {
+  font-weight: 500;
+}
+
+.text.dish.price {
+  float: right;
+}
+
+.text.dish.ingredients {
+  font-size: 22px;
+}
+
+@media (max-width: 600px) {
+  .text {
+    font-size: 20px;
+  }
+  .text.dish.ingredients {
+    font-size: 16px;
+  }
+  .image {
+    height: 150px;
+  }
+  .dish-container {
+    width: 250px;
+  }
+}
+
+@media (max-height: 700px) {
+  .container {
+    max-height: 44vh;
+    overflow-y: scroll;
+  }
 }

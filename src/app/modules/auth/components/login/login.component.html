@@ -8,18 +8,10 @@
       formControlName="email"
       placeholder="name@address.com"
       id="emailInput"
-      [class.is-invalid]="
-        (loginForm.controls.email.invalid &&
-          loginForm.controls.email.touched) ||
-        (submitted && loginForm.controls.email.invalid)
-      "
+      [class.is-invalid]="checkControlInvalid(loginForm.controls.email)"
     />
     <div
-      *ngIf="
-        (loginForm.controls.email.invalid &&
-          loginForm.controls.email.touched) ||
-        (submitted && loginForm.controls.email.invalid)
-      "
+      *ngIf="checkControlInvalid(loginForm.controls.email)"
       class="text-danger"
     >
       <small> {{ getErrorMessage(loginForm.controls.email) }}</small>
@@ -33,18 +25,10 @@
       formControlName="password"
       placeholder="Enter your password"
       id="passwordInput"
-      [class.is-invalid]="
-        (loginForm.controls.password.invalid &&
-          loginForm.controls.password.touched) ||
-        (submitted && loginForm.controls.password.invalid)
-      "
+      [class.is-invalid]="checkControlInvalid(loginForm.controls.password)"
     />
     <div
-      *ngIf="
-        (loginForm.controls.password.invalid &&
-          loginForm.controls.password.touched) ||
-        (submitted && loginForm.controls.password.invalid)
-      "
+      *ngIf="checkControlInvalid(loginForm.controls.password)"
       class="text-danger"
     >
       <small> {{ getErrorMessage(loginForm.controls.password) }}</small>

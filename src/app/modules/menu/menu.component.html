@@ -1,6 +1,6 @@
 <div class="main-menu-container">
   <ul
-    class="nav nav-pills mb-3 justify-content-center"
+    class="nav nav-pills justify-content-center container-sm px-2"
     id="pills-tab"
     role="tablist"
   >
@@ -15,7 +15,7 @@
         aria-controls="pills-appetizers"
         aria-selected="true"
       >
-        Appetizers
+        {{ dishTypes.APPETIZERS }}
       </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -29,7 +29,7 @@
         aria-controls="pills-pizza"
         aria-selected="false"
       >
-        Pizza
+        {{ dishTypes.PIZZA }}
       </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -43,7 +43,49 @@
         aria-controls="pills-soaps"
         aria-selected="false"
       >
-        Soaps
+        {{ dishTypes.SOUPS }}
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="pills-pasta-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-pasta"
+        type="button"
+        role="tab"
+        aria-controls="pills-pasta"
+        aria-selected="false"
+      >
+        {{ dishTypes.PASTA }}
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="pills-desserts-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-desserts"
+        type="button"
+        role="tab"
+        aria-controls="pills-desserts"
+        aria-selected="false"
+      >
+        {{ dishTypes.DESSERTS }}
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="pills-drinks-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-drinks"
+        type="button"
+        role="tab"
+        aria-controls="pills-drinks"
+        aria-selected="false"
+      >
+        {{ dishTypes.DRINKS }}
       </button>
     </li>
   </ul>
@@ -56,7 +98,7 @@
         aria-labelledby="pills-appetizers-tab"
         tabindex="0"
       >
-        <app-dishes [type]="'Appetizer'"></app-dishes>
+        <app-dishes [type]="dishTypes.APPETIZERS"></app-dishes>
       </div>
       <div
         class="tab-pane fade"
@@ -65,7 +107,7 @@
         aria-labelledby="pills-pizza-tab"
         tabindex="0"
       >
-        <app-dishes [type]="'Pizza'"></app-dishes>
+        <app-dishes [type]="dishTypes.PIZZA"></app-dishes>
       </div>
       <div
         class="tab-pane fade"
@@ -74,7 +116,34 @@
         aria-labelledby="pills-soaps-tab"
         tabindex="0"
       >
-        <app-dishes [type]="'Soup'"></app-dishes>
+        <app-dishes [type]="dishTypes.SOUPS"></app-dishes>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="pills-pasta"
+        role="tabpanel"
+        aria-labelledby="pills-pasta-tab"
+        tabindex="0"
+      >
+        <app-dishes [type]="dishTypes.PASTA"></app-dishes>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="pills-desserts"
+        role="tabpanel"
+        aria-labelledby="pills-desserts-tab"
+        tabindex="0"
+      >
+        <app-dishes [type]="dishTypes.DESSERTS"></app-dishes>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="pills-drinks"
+        role="tabpanel"
+        aria-labelledby="pills-drinks-tab"
+        tabindex="0"
+      >
+        <app-dishes [type]="dishTypes.DRINKS"></app-dishes>
       </div>
     </div>
   </div>

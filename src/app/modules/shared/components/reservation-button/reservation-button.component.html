@@ -1,3 +1,11 @@
-<button type="button" class="btn btn-light btn-reservation" @fadeIn>
+<button
+  type="button"
+  class="btn btn-light btn-reservation"
+  @fadeIn
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
   Reservation
 </button>
+
+<app-reservation-modal></app-reservation-modal>

@@ -11,7 +11,42 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$restaurant-app-fe-primary: mat.define-palette(mat.$indigo-palette);
+
+$restaurant-app-palette: (
+  50: #fbfeea,
+  100: #f6f9e5,
+  200: #f1f5e0,
+  300: #ecefda,
+  400: #caceba,
+  500: #adb09d,
+  600: #838673,
+  700: #6e715f,
+  800: #4e5140,
+  900: #2b2f1f,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  ),
+);
+
+$restaurant-app-fe-primary: mat.define-palette(
+  $restaurant-app-palette,
+  800,
+  500,
+  900
+);
 $restaurant-app-fe-accent: mat.define-palette(
   mat.$pink-palette,
   A200,
@@ -41,6 +76,7 @@ $restaurant-app-fe-theme: mat.define-light-theme(
 
 $primary: #4e5140;
 $input-placeholder-color: rgba(78, 81, 64, 0.6);
+$btn-close-color: white;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
@@ -60,19 +96,42 @@ body {
 
 .form-control {
   border-radius: 0;
+}
+
+.form-select,
+.form-control {
   border: 1px solid rgba(78, 81, 64, 0.5);
   box-shadow: 0 0 5px rgba(78, 81, 64, 0.5);
 }
 
-.form-control.is-invalid {
+.form-control.is-invalid,
+.form-select.is-invalid {
   box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
 
-.form-control.is-invalid:focus {
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
   box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
 }
-.form-control:focus {
+
+.form-control:focus,
+.form-select:focus {
   box-shadow: 0 0 8px rgba(78, 81, 64, 0.8);
+}
+
+.input-field {
+  min-height: 86px;
+}
+
+.form-label {
+  margin-bottom: 0px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 20px;
 }
 
 .navbar-toggler {

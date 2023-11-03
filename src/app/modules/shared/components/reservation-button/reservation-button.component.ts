@@ -1,13 +1,5 @@
 import { Component } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
-
-const enterTransition = transition(':enter', [
-  style({
-    opacity: 0,
-  }),
-  animate('0.5s ease-in', style({ opacity: 1 })),
-]);
-const fadeIn = trigger('fadeIn', [enterTransition]);
+import { fadeIn } from '../../constants/animations';
 
 @Component({
   selector: 'app-reservation-button',
@@ -15,4 +7,6 @@ const fadeIn = trigger('fadeIn', [enterTransition]);
   styleUrls: ['./reservation-button.component.scss'],
   animations: [fadeIn],
 })
-export class ReservationButtonComponent {}
+export class ReservationButtonComponent {
+  constructor() {}
+}

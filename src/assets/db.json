@@ -26,14 +26,82 @@
       "name": "Bruschetta",
       "ingredients": "creamy goat cheese, prosciutto crudo, grana padano",
       "price": 30,
-      "type": "Appetizer"
+      "type": "Appetizers"
     },
     {
       "id": 5,
       "name": "Cremy onion soup",
       "ingredients": "with croutons and cheese",
       "price": 30,
-      "type": "Soup"
+      "type": "Soups"
+    },
+    {
+      "id": 6,
+      "name": "Spaghetti Carbonara",
+      "ingredients": "pancetta, eggs, pecorino romano cheese",
+      "price": 45,
+      "type": "Pasta"
+    },
+    {
+      "id": 7,
+      "name": "Sundae",
+      "ingredients": "ice cream, whipped cream, chocolate sauce",
+      "price": 20,
+      "type": "Desserts"
+    },
+    {
+      "id": 8,
+      "name": "Moijto",
+      "ingredients": "rum, sparkling water, lime, cane sugar, mint",
+      "price": 30,
+      "type": "Drinks"
+    },
+    {
+      "id": 9,
+      "name": "Margarita",
+      "ingredients": "tomato sauce, mozzarella",
+      "price": 36,
+      "type": "Pizza"
+    },
+    {
+      "id": 10,
+      "name": "Margarita",
+      "ingredients": "tomato sauce, mozzarella",
+      "price": 36,
+      "type": "Pizza"
+    },
+    {
+      "id": 11,
+      "name": "Margarita",
+      "ingredients": "tomato sauce, mozzarella",
+      "price": 36,
+      "type": "Pizza"
+    }
+  ],
+  "reservations": [
+    {
+      "id": 1,
+      "date": "01.11.2023",
+      "hour": "18:00",
+      "table": 1,
+      "status": "Confirmed"
+    },
+    {
+      "id": 2,
+      "date": "01.11.2023",
+      "hour": "17:00",
+      "table": 2,
+      "status": "Confirmed"
+    }
+  ],
+  "tables": [
+    {
+      "id": 1,
+      "peopleNumber": 2
+    },
+    {
+      "id": 2,
+      "peopleNumber": 2
     }
   ]
 }
