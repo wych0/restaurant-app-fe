@@ -1,4 +1,9 @@
-<form appFocusInvalidInput [formGroup]="loginForm" (submit)="onSubmit()">
+<form
+  appFocusInvalidInput
+  [formGroup]="loginForm"
+  (submit)="onSubmit()"
+  @fadeIn
+>
   <h1 class="text-primary text-center login">Log in</h1>
   <div class="form-field input-field">
     <label class="form-label" for="emailInput">Email address</label>

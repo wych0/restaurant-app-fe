@@ -1,25 +1,22 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormErrorService } from 'src/app/modules/core/services/form-error-service';
+import { FormService } from 'src/app/modules/core/services/form-service';
 import { Display } from '../../constants/display.enum';
+import { RegisterForm } from 'src/app/modules/core/models/forms.model';
+import { fadeIn } from 'src/app/modules/shared/constants/animations';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss', '../../common-styles.scss'],
+  animations: [fadeIn],
 })
 export class RegisterComponent {
   @Output() changeComponent = new EventEmitter<Display>();
   submitted: boolean = false;
-  registerForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
-  });
+  registerForm: FormGroup<RegisterForm> = this.formService.initRegisterForm();
 
-  constructor(private formErrorService: FormErrorService) {}
+  constructor(private formService: FormService) {}
 
   onSubmit(): void {
     this.submitted = true;
@@ -33,6 +30,10 @@ export class RegisterComponent {
   }
 
   getErrorMessage(control: FormControl) {
-    return this.formErrorService.getErrorMessage(control);
+    return this.formService.getErrorMessage(control);
+  }
+
+  checkControlInvalid(control: FormControl) {
+    return this.formService.controlInvalid(control, this.submitted);
   }
 }

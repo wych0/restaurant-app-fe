@@ -2,14 +2,25 @@
   width: 300px;
 }
 
-.container.calendar {
-  flex-basis: 100%;
+.left-side {
+  flex-basis: 40%;
+}
+.right-side {
+  flex-basis: 55%;
 }
 
 .container-hours {
+  min-width: 300px;
   flex-basis: 100%;
-  max-width: 600px;
-  min-height: 150px;
+  row-gap: 5px;
+}
+
+.container-hour {
+  max-height: 40px;
+}
+
+.container.info {
+  min-height: 225px;
 }
 
 .form-select {
@@ -21,16 +32,12 @@
   color: #4e5140;
   box-shadow: 0 0 5px rgba(78, 81, 64, 0.5);
   border: 1px solid rgba(78, 81, 64, 0.5);
-  min-width: 150px;
+  min-width: 140px;
 }
 
 .btn-hour:hover {
   color: white;
   background-color: #4e5140;
-}
-
-.btn-back {
-  float: left;
 }
 
 .reservation-details {
@@ -73,4 +80,12 @@ form {
 
 .form-control::placeholder {
   text-transform: none;
+}
+
+.spinner {
+  flex-basis: 100%;
+}
+
+.bi {
+  font-size: 5rem;
 }

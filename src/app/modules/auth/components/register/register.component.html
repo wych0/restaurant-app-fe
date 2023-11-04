@@ -1,4 +1,9 @@
-<form appFocusInvalidInput [formGroup]="registerForm" (submit)="onSubmit()">
+<form
+  appFocusInvalidInput
+  [formGroup]="registerForm"
+  (submit)="onSubmit()"
+  @fadeIn
+>
   <h1 class="text-primary text-center">Register</h1>
   <div class="form-field input-field">
     <label class="form-label" for="emailInput">Email address</label>
@@ -8,18 +13,10 @@
       formControlName="email"
       placeholder="name@address.com"
       id="emailInput"
-      [class.is-invalid]="
-        (registerForm.controls.email.invalid &&
-          registerForm.controls.email.touched) ||
-        (submitted && registerForm.controls.email.invalid)
-      "
+      [class.is-invalid]="checkControlInvalid(registerForm.controls.email)"
     />
     <div
-      *ngIf="
-        (registerForm.controls.email.invalid &&
-          registerForm.controls.email.touched) ||
-        (submitted && registerForm.controls.email.invalid)
-      "
+      *ngIf="checkControlInvalid(registerForm.controls.email)"
       class="text-danger"
     >
       <small> {{ getErrorMessage(registerForm.controls.email) }}</small>
@@ -33,18 +30,10 @@
       formControlName="password"
       placeholder="Enter your password"
       id="passwordInput"
-      [class.is-invalid]="
-        (registerForm.controls.password.invalid &&
-          registerForm.controls.password.touched) ||
-        (submitted && registerForm.controls.password.invalid)
-      "
+      [class.is-invalid]="checkControlInvalid(registerForm.controls.password)"
     />
     <div
-      *ngIf="
-        (registerForm.controls.password.invalid &&
-          registerForm.controls.password.touched) ||
-        (submitted && registerForm.controls.password.invalid)
-      "
+      *ngIf="checkControlInvalid(registerForm.controls.password)"
       class="text-danger"
     >
       <small>

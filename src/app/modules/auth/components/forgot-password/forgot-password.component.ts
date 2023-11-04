@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormErrorService } from 'src/app/modules/core/services/form-error-service';
+import { FormService } from 'src/app/modules/core/services/form-service';
 import { Display } from '../../constants/display.enum';
+import { RecoverForm } from 'src/app/modules/core/models/forms.model';
+import { fadeIn } from 'src/app/modules/shared/constants/animations';
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss', '../../common-styles.scss'],
+  animations: [fadeIn],
 })
 export class ForgotPasswordComponent {
   @Output() changeComponent = new EventEmitter<Display>();
   submitted: boolean = false;
-  recoverForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-  });
+  recoverForm: FormGroup<RecoverForm> = this.formService.initRecoverForm();
 
-  constructor(private formErrorService: FormErrorService) {}
+  constructor(private formService: FormService) {}
 
   onSubmit(): void {
     this.submitted = true;
@@ -29,6 +30,10 @@ export class ForgotPasswordComponent {
   }
 
   getErrorMessage(control: FormControl) {
-    return this.formErrorService.getErrorMessage(control);
+    return this.formService.getErrorMessage(control);
+  }
+
+  checkControlInvalid(control: FormControl) {
+    return this.formService.controlInvalid(control, this.submitted);
   }
 }

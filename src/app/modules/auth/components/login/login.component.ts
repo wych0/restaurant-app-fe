@@ -1,16 +1,9 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormErrorService } from 'src/app/modules/core/services/form-error-service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { FormService } from 'src/app/modules/core/services/form-service';
 import { Display } from '../../constants/display.enum';
-
-const enterTransition = transition(':enter', [
-  style({
-    opacity: 0,
-  }),
-  animate('0.5s ease-in', style({ opacity: 1 })),
-]);
-const fadeIn = trigger('fadeIn', [enterTransition]);
+import { LoginForm } from 'src/app/modules/core/models/forms.model';
+import { fadeIn } from 'src/app/modules/shared/constants/animations';
 
 @Component({
   selector: 'app-login',
@@ -22,12 +15,9 @@ export class LoginComponent {
   @Output() changeComponent = new EventEmitter<Display>();
   submitted: boolean = false;
   allDisplays = Display;
-  loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
-  });
+  loginForm: FormGroup<LoginForm> = this.formService.initLoginForm();
 
-  constructor(private formErrorService: FormErrorService) {}
+  constructor(private formService: FormService) {}
 
   onSubmit(): void {
     this.submitted = true;
@@ -41,10 +31,10 @@ export class LoginComponent {
   }
 
   getErrorMessage(control: FormControl) {
-    return this.formErrorService.getErrorMessage(control);
+    return this.formService.getErrorMessage(control);
   }
 
   checkControlInvalid(control: FormControl) {
-    return this.formErrorService.controlInvalid(control, this.submitted);
+    return this.formService.controlInvalid(control, this.submitted);
   }
 }

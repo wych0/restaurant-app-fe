@@ -2,10 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { add, format } from 'date-fns';
 import { fadeIn, fadeOut } from '../../../constants/animations';
 import { ReservationService } from 'src/app/modules/core/services/reservation.service';
-import { AvailableHoursParams } from 'src/app/modules/core/models/reservation.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormErrorService } from 'src/app/modules/core/services/form-error-service';
+import {
+  AdditionalOptions,
+  AvailableHoursParams,
+  CreateReservation,
+} from 'src/app/modules/core/models/reservation.model';
+import { FormControl, FormGroup } from '@angular/forms';
+import { FormService } from 'src/app/modules/core/services/form-service';
 import { provideNgxMask } from 'ngx-mask';
+import { PersonalData } from 'src/app/modules/core/models/personalData.model';
+import { ReservationForm } from 'src/app/modules/core/models/forms.model';
+import {
+  failedMessage,
+  reservedHourMessage,
+  successfulMessage,
+  usedEmailMessage,
+} from '../../../constants/reservationMessages';
 
 @Component({
   selector: 'app-reservation-modal',
@@ -16,17 +28,11 @@ import { provideNgxMask } from 'ngx-mask';
 })
 export class ReservationModalComponent implements OnInit {
   submitted: boolean = false;
-  dataLoaded: boolean = false;
-  reservationForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    secondName: new FormControl('', Validators.required),
-    phone: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    requests: new FormControl(''),
-    wheelchair: new FormControl(false),
-    baby: new FormControl(false),
-    cake: new FormControl(false),
-  });
+  hoursLoaded: boolean = false;
+  creatingStatus: string | null = null;
+  creatingMessage: string | null = null;
+  reservationForm: FormGroup<ReservationForm> =
+    this.formService.initReservationForm();
   selectedDate: Date | null = null;
   selectedPeopleNumber: number = 1;
   selectedHour: string | null = null;
@@ -37,14 +43,14 @@ export class ReservationModalComponent implements OnInit {
 
   constructor(
     private reservationService: ReservationService,
-    private formErrorService: FormErrorService
+    private formService: FormService
   ) {}
 
   ngOnInit(): void {}
 
   dataSelected(): void {
     if (this.selectedDate) {
-      this.dataLoaded = false;
+      this.hoursLoaded = false;
       this.availableHours = [];
       this.formatedDate = format(this.selectedDate, 'EEEE, MMMM dd yyyy');
       const params: AvailableHoursParams = {
@@ -54,7 +60,7 @@ export class ReservationModalComponent implements OnInit {
       this.reservationService.getAvailableHours(params).subscribe(
         (availableHours) => {
           this.availableHours = availableHours;
-          this.dataLoaded = true;
+          this.hoursLoaded = true;
         },
         (error) => {
           console.log(error);
@@ -65,20 +71,67 @@ export class ReservationModalComponent implements OnInit {
 
   hourSelected(hour: any): void {
     this.selectedHour = hour;
+    if (hour === null) {
+      this.creatingStatus = null;
+      this.dataSelected();
+    }
   }
 
   onSubmit(): void {
     this.submitted = true;
     if (this.reservationForm.valid) {
-      console.log(this.reservationForm.value);
+      this.creatingStatus = 'Creating';
+      const formData = this.reservationForm.getRawValue();
+      const additionalOptions: AdditionalOptions = {
+        wheelchair: formData.wheelchair,
+        baby: formData.baby,
+        cake: formData.cake,
+      };
+      const personalData: PersonalData = {
+        firstName: formData.firstName,
+        secondName: formData.secondName,
+        email: formData.email,
+        phone: formData.phone,
+      };
+      const reservation: CreateReservation = {
+        date: this.selectedDate || new Date(),
+        hour: this.selectedHour || '',
+        peopleNumber: this.selectedPeopleNumber,
+        requests: formData.requests,
+        personalData,
+        additionalOptions,
+      };
+      this.reservationService.addReservation(reservation).subscribe(
+        (reservation) => {
+          this.creatingStatus = 'Created';
+          this.creatingMessage = successfulMessage;
+        },
+        (error) => {
+          this.creatingStatus = 'Failed';
+          this.creatingMessage =
+            error.status === 409 ? usedEmailMessage : reservedHourMessage;
+        }
+      );
     }
   }
 
-  getErrorMessage(control: FormControl, name?: string) {
-    return this.formErrorService.getErrorMessage(control, name);
+  resetValues(): void {
+    this.reservationForm.reset();
+    this.submitted = false;
+    this.hoursLoaded = false;
+    this.selectedDate = null;
+    this.selectedHour = null;
+    this.creatingStatus = null;
+    this.creatingMessage = null;
+    this.selectedPeopleNumber = 1;
+    this.availableHours = [];
   }
 
-  checkControlInvalid(control: FormControl) {
-    return this.formErrorService.controlInvalid(control, this.submitted);
+  getErrorMessage(control: FormControl, name?: string) {
+    return this.formService.getErrorMessage(control, name);
+  }
+
+  checkControlInvalid(control: FormControl): boolean {
+    return this.formService.controlInvalid(control, this.submitted);
   }
 }
