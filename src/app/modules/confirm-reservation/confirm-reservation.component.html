@@ -1,0 +1,16 @@
+<div
+  class="container-sm d-flex flex-column justify-content-center align-items-center h-100 text-center"
+>
+  <ng-container *ngIf="!error">
+    <h1 class="text-primary">Confirming reservation...</h1>
+    <mat-progress-bar
+      mode="indeterminate"
+      style="width: 50%"
+    ></mat-progress-bar>
+  </ng-container>
+  <ng-container *ngIf="error">
+    <i class="bi bi-x-square-fill text-danger" style="font-size: 5rem"></i>
+    <h1 class="text-primary">Confirming reservation failed</h1>
+    <h5>{{ error }}</h5>
+  </ng-container>
+</div>

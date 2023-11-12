@@ -7,7 +7,7 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">
@@ -21,7 +21,7 @@
           (click)="resetValues()"
         ></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body d-flex align-items-center">
         <div *ngIf="!selectedHour" @fadeIn>
           <div class="container-lg d-flex flex-wrap justify-content-around">
             <div class="left-side">
@@ -60,7 +60,7 @@
                 <div
                   class="container-hours d-flex flex-wrap justify-content-center align-items-center"
                 >
-                  <app-spinner></app-spinner>
+                  <app-spinner [size]="spinnerSize"></app-spinner>
                   <ng-container
                     *ngIf="hoursLoaded && availableHours.length === 0"
                     ><div class="text-center" @fadeIn>
@@ -84,184 +84,190 @@
             </div>
           </div>
         </div>
-      </div>
+        <ng-container *ngIf="selectedHour && !creatingStatus">
+          <div @fadeIn class="container details bg-white">
+            <div class="text-center">
+              <span class="reservation-details text-primary">
+                Reservation for
+                <strong>{{ selectedPeopleNumber }} people</strong> on
+                <strong>{{ formatedDate }}</strong> at
+                <strong>{{ selectedHour }}</strong
+                >.
+              </span>
+            </div>
 
-      <div *ngIf="selectedHour" @fadeIn class="container">
-        <ng-container *ngIf="!creatingStatus">
-          <div class="text-center">
-            <span class="reservation-details text-primary">
-              Reservation for
-              <strong>{{ selectedPeopleNumber }} people</strong> on
-              <strong>{{ formatedDate }}</strong> at
-              <strong>{{ selectedHour }}</strong
-              >.
-            </span>
+            <form
+              appFocusInvalidInput
+              [formGroup]="reservationForm"
+              (submit)="onSubmit()"
+              class="mx-auto my-2 d-flex flex-wrap justify-content-center"
+              id="reservationForm"
+            >
+              <div class="form-field input-field">
+                <label class="form-label" for="firstNameInput"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="firstName"
+                  placeholder="Enter your first name"
+                  id="firstNameInput"
+                  [class.is-invalid]="
+                    checkControlInvalid(reservationForm.controls.firstName)
+                  "
+                  style="text-transform: capitalize"
+                />
+                <div
+                  *ngIf="
+                    checkControlInvalid(reservationForm.controls.firstName)
+                  "
+                  class="text-danger"
+                >
+                  <small>
+                    {{
+                      getErrorMessage(reservationForm.controls.firstName)
+                    }}</small
+                  >
+                </div>
+              </div>
+
+              <div class="form-field input-field">
+                <label class="form-label" for="secondNameInput"
+                  >Second Name</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="secondName"
+                  placeholder="Enter your second name"
+                  id="secondNameInput"
+                  [class.is-invalid]="
+                    checkControlInvalid(reservationForm.controls.secondName)
+                  "
+                  style="text-transform: capitalize"
+                />
+                <div
+                  *ngIf="
+                    checkControlInvalid(reservationForm.controls.secondName)
+                  "
+                  class="text-danger"
+                >
+                  <small>
+                    {{
+                      getErrorMessage(reservationForm.controls.secondName)
+                    }}</small
+                  >
+                </div>
+              </div>
+              <div class="form-field input-field">
+                <label class="form-label" for="emailInput">Email address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="name@address.com"
+                  id="emailInput"
+                  [class.is-invalid]="
+                    checkControlInvalid(reservationForm.controls.email)
+                  "
+                />
+                <div
+                  *ngIf="checkControlInvalid(reservationForm.controls.email)"
+                  class="text-danger"
+                >
+                  <small>
+                    {{ getErrorMessage(reservationForm.controls.email) }}</small
+                  >
+                </div>
+              </div>
+              <div class="form-field input-field">
+                <label class="form-label" for="phoneInput">Phone number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="phone"
+                  [mask]="'000 000 000'"
+                  placeholder="000 000 000"
+                  id="phoneInput"
+                  [class.is-invalid]="
+                    checkControlInvalid(reservationForm.controls.phone)
+                  "
+                />
+                <div
+                  *ngIf="checkControlInvalid(reservationForm.controls.phone)"
+                  class="text-danger"
+                >
+                  <small>
+                    {{
+                      getErrorMessage(
+                        reservationForm.controls.phone,
+                        "phone number"
+                      )
+                    }}</small
+                  >
+                </div>
+              </div>
+              <div class="form-field input-field text-area">
+                <label class="form-label" for="requestsInput"
+                  >Optional requests</label
+                >
+                <textarea
+                  type="text"
+                  class="form-control"
+                  formControlName="requests"
+                  placeholder="Optional requests"
+                  id="requestsInput"
+                  rows="2"
+                ></textarea>
+              </div>
+              <div class="container-additional-options mt-2">
+                <h6>Additional options:</h6>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="wheelchairCheckbox"
+                    formControlName="wheelchair"
+                  />
+                  <label class="form-check-label" for="wheelchairCheckbox"
+                    >Wheelchair Access</label
+                  >
+                </div>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="babyCheckbox"
+                    formControlName="baby"
+                  />
+                  <label class="form-check-label" for="babyCheckbox"
+                    >Baby</label
+                  >
+                </div>
+                <div class="form-check form-switch">
+                  <label class="form-check-label" for="cakeCheckbox"
+                    >Birthday Cake</label
+                  >
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="cakeCheckbox"
+                    formControlName="cake"
+                  />
+                </div>
+              </div>
+            </form>
           </div>
-
-          <form
-            appFocusInvalidInput
-            [formGroup]="reservationForm"
-            (submit)="onSubmit()"
-            class="my-4 mx-auto d-flex flex-wrap justify-content-center"
-            id="reservationForm"
-          >
-            <div class="form-field input-field">
-              <label class="form-label" for="firstNameInput">First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="firstName"
-                placeholder="Enter your first name"
-                id="firstNameInput"
-                [class.is-invalid]="
-                  checkControlInvalid(reservationForm.controls.firstName)
-                "
-                style="text-transform: capitalize"
-              />
-              <div
-                *ngIf="checkControlInvalid(reservationForm.controls.firstName)"
-                class="text-danger"
-              >
-                <small>
-                  {{
-                    getErrorMessage(reservationForm.controls.firstName)
-                  }}</small
-                >
-              </div>
-            </div>
-
-            <div class="form-field input-field">
-              <label class="form-label" for="secondNameInput"
-                >Second Name</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                formControlName="secondName"
-                placeholder="Enter your second name"
-                id="secondNameInput"
-                [class.is-invalid]="
-                  checkControlInvalid(reservationForm.controls.secondName)
-                "
-                style="text-transform: capitalize"
-              />
-              <div
-                *ngIf="checkControlInvalid(reservationForm.controls.secondName)"
-                class="text-danger"
-              >
-                <small>
-                  {{
-                    getErrorMessage(reservationForm.controls.secondName)
-                  }}</small
-                >
-              </div>
-            </div>
-            <div class="form-field input-field">
-              <label class="form-label" for="emailInput">Email address</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="email"
-                placeholder="name@address.com"
-                id="emailInput"
-                [class.is-invalid]="
-                  checkControlInvalid(reservationForm.controls.email)
-                "
-              />
-              <div
-                *ngIf="checkControlInvalid(reservationForm.controls.email)"
-                class="text-danger"
-              >
-                <small>
-                  {{ getErrorMessage(reservationForm.controls.email) }}</small
-                >
-              </div>
-            </div>
-            <div class="form-field input-field">
-              <label class="form-label" for="phoneInput">Phone number</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="phone"
-                [mask]="'000 000 000'"
-                placeholder="000 000 000"
-                id="phoneInput"
-                [class.is-invalid]="
-                  checkControlInvalid(reservationForm.controls.phone)
-                "
-              />
-              <div
-                *ngIf="checkControlInvalid(reservationForm.controls.phone)"
-                class="text-danger"
-              >
-                <small>
-                  {{
-                    getErrorMessage(
-                      reservationForm.controls.phone,
-                      "phone number"
-                    )
-                  }}</small
-                >
-              </div>
-            </div>
-            <div class="form-field input-field text-area">
-              <label class="form-label" for="requestsInput"
-                >Optional requests</label
-              >
-              <textarea
-                type="text"
-                class="form-control"
-                formControlName="requests"
-                placeholder="Optional requests"
-                id="requestsInput"
-                rows="2"
-              ></textarea>
-            </div>
-            <div class="container-additional-options mt-2">
-              <h6>Additional options:</h6>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="wheelchairCheckbox"
-                  formControlName="wheelchair"
-                />
-                <label class="form-check-label" for="wheelchairCheckbox"
-                  >Wheelchair Access</label
-                >
-              </div>
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="babyCheckbox"
-                  formControlName="baby"
-                />
-                <label class="form-check-label" for="babyCheckbox">Baby</label>
-              </div>
-              <div class="form-check form-switch">
-                <label class="form-check-label" for="cakeCheckbox"
-                  >Birthday Cake</label
-                >
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="cakeCheckbox"
-                  formControlName="cake"
-                />
-              </div>
-            </div>
-          </form>
         </ng-container>
-
         <ng-container *ngIf="creatingStatus"
           ><div
             class="container info d-flex flex-wrap justify-content-center align-items-center"
           >
-            <app-spinner></app-spinner>
+            <app-spinner [size]="spinnerSize"></app-spinner>
             <div class="container-sm text-center">
               <i
                 *ngIf="creatingStatus === 'Created'"
@@ -285,11 +291,12 @@
           </div></ng-container
         >
       </div>
-      <div class="modal-footer bg-primary">
+
+      <div class="modal-footer">
         <button
           *ngIf="selectedHour && creatingStatus !== 'Created'"
           type="button"
-          class="btn btn-primary btn-back"
+          class="btn btn-outline-primary btn-lg"
           (click)="hourSelected(null)"
         >
           Back
@@ -297,7 +304,7 @@
         <button
           *ngIf="selectedHour && !creatingStatus"
           type="submit"
-          class="btn btn-primary"
+          class="btn btn-primary btn-lg px-5"
           form="reservationForm"
         >
           Reserve

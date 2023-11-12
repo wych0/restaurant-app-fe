@@ -5,6 +5,14 @@
   @fadeIn
 >
   <h1 class="text-primary text-center">Register</h1>
+  <div *ngIf="error$ | async as error" class="alert mb-1 mx-4" role="alert">
+    <div
+      class="d-flex align-items-center justify-content-center text-center flex-wrap"
+    >
+      <i class="bi bi-x-square-fill text-danger m-0"></i>
+      <span class="text-error">{{ error.error }}</span>
+    </div>
+  </div>
   <div class="form-field input-field">
     <label class="form-label" for="emailInput">Email address</label>
     <input
@@ -42,7 +50,18 @@
     </div>
   </div>
   <div class="form-field button">
-    <button class="btn btn-primary mx-4 mt-1" type="submit">Register</button>
+    <button
+      *ngIf="!(loading$ | async)"
+      class="btn btn-primary mx-4 mt-1"
+      type="submit"
+    >
+      Register
+    </button>
+    <ng-container *ngIf="loading$ | async">
+      <div class="spinner-container mx-auto">
+        <app-spinner [size]="spinnerSize"></app-spinner>
+      </div>
+    </ng-container>
   </div>
   <p class="text-center mt-2 mb-0">
     Alredy registered?

@@ -16,7 +16,12 @@ export interface LoginForm {
   password: FormControl<string>;
 }
 
-export interface RecoverForm {
+export interface RecoverPasswordForm {
+  password: FormControl<string>;
+  repeatPassword: FormControl<string>;
+}
+
+export interface ForgotPasswordForm {
   email: FormControl<string>;
 }
 

@@ -1,0 +1,56 @@
+.container {
+  margin-top: 90px;
+  max-width: 1000px;
+}
+
+.content {
+  flex-basis: 80%;
+  min-height: 640px;
+  overflow: auto;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 20%;
+}
+
+.nav-link {
+  color: white;
+  border-radius: 0;
+  width: 100%;
+  font-weight: 500;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  background-color: #767968;
+}
+
+@media (max-width: 991.2px) {
+  .nav-link {
+    margin: 10px 10px;
+    width: 150px;
+  }
+  .content,
+  .nav {
+    flex-basis: 100%;
+  }
+
+  .content {
+    min-height: 0;
+    height: 70vh;
+  }
+
+  .nav {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (max-height: 700px) {
+  .content {
+    min-height: 0;
+    height: 62vh;
+  }
+}

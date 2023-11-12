@@ -1,0 +1,116 @@
+<div
+  class="modal fade"
+  id="detailsModal"
+  tabindex="-1"
+  aria-labelledby="detailsModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down"
+  >
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="detailsModalLabel">
+          Reservation details
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <ng-container *ngIf="reservationDetails">
+        <div class="modal-body">
+          <p class="reservation-details text-primary">
+            Details for reservation:
+            <strong>{{ reservationDetails.id }}</strong>
+          </p>
+          <p class="reservation-details text-primary">
+            Status:
+            <strong>{{ reservationDetails.status }}</strong>
+          </p>
+
+          <p class="reservation-details text-primary mb-0">
+            Reservation in the name:
+          </p>
+          <p class="mb-0">
+            <strong
+              >{{
+                reservationDetails.personalData.firstName +
+                  " " +
+                  reservationDetails.personalData.secondName
+              }}
+            </strong>
+          </p>
+          <p class="mb-0">
+            <strong>{{ reservationDetails.personalData.phone }} </strong>
+          </p>
+          <p>
+            <strong>{{ reservationDetails.personalData.email }} </strong>
+          </p>
+
+          <button
+            class="btn btn-outline-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#cancelModal"
+          >
+            Cancel reservation
+          </button>
+          <ng-container *ngIf="reservationDetails.confirmationToken">
+            <button
+              class="btn btn-outline-primary mx-2"
+              (click)="confirmReservation()"
+            >
+              Confirm reservation
+            </button>
+          </ng-container>
+        </div>
+      </ng-container>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="cancelModal"
+  tabindex="-1"
+  aria-labelledby="cancelModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="cancelModalLabel">
+          Cancel reservation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          data-bs-toggle="modal"
+          data-bs-target="#detailsModal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h6>Are you sure you want cancel reservation?</h6>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-dismiss="modal"
+          data-bs-toggle="modal"
+          data-bs-target="#detailsModal"
+        >
+          No, Close
+        </button>
+        <button type="button" class="btn btn-primary">Yes, Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

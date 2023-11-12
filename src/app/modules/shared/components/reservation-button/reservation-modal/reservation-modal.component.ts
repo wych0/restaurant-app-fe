@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { add, format } from 'date-fns';
 import { fadeIn, fadeOut } from '../../../constants/animations';
 import { ReservationService } from 'src/app/modules/core/services/reservation.service';
@@ -13,11 +13,14 @@ import { provideNgxMask } from 'ngx-mask';
 import { PersonalData } from 'src/app/modules/core/models/personalData.model';
 import { ReservationForm } from 'src/app/modules/core/models/forms.model';
 import {
-  failedMessage,
   reservedHourMessage,
   successfulMessage,
   usedEmailMessage,
 } from '../../../constants/reservationMessages';
+import { Size } from 'src/app/modules/core/models/spinner.model';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
+import { selectAuthUser } from 'src/app/modules/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-reservation-modal',
@@ -40,10 +43,13 @@ export class ReservationModalComponent implements OnInit {
   minDate: Date = new Date();
   maxDate: Date = add(new Date(), { months: 6 });
   availableHours: string[] = [];
+  spinnerSize: Size = Size.BIG;
+  userId: string | undefined;
 
   constructor(
     private reservationService: ReservationService,
-    private formService: FormService
+    private formService: FormService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {}
@@ -82,6 +88,9 @@ export class ReservationModalComponent implements OnInit {
     if (this.reservationForm.valid) {
       this.creatingStatus = 'Creating';
       const formData = this.reservationForm.getRawValue();
+      this.store.select(selectAuthUser).subscribe((user) => {
+        this.userId = user?.id;
+      });
       const additionalOptions: AdditionalOptions = {
         wheelchair: formData.wheelchair,
         baby: formData.baby,
@@ -100,18 +109,20 @@ export class ReservationModalComponent implements OnInit {
         requests: formData.requests,
         personalData,
         additionalOptions,
+        userId: this.userId,
       };
-      this.reservationService.addReservation(reservation).subscribe(
-        (reservation) => {
+      this.reservationService.addReservation(reservation).subscribe({
+        next: (reservation) => {
           this.creatingStatus = 'Created';
+          this.reservationService.setReservationCreated();
           this.creatingMessage = successfulMessage;
         },
-        (error) => {
+        error: (error) => {
           this.creatingStatus = 'Failed';
           this.creatingMessage =
             error.status === 409 ? usedEmailMessage : reservedHourMessage;
-        }
-      );
+        },
+      });
     }
   }
 

@@ -2,16 +2,34 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   LoginForm,
-  RecoverForm,
+  RecoverPasswordForm,
   RegisterForm,
   ReservationForm,
+  ForgotPasswordForm,
 } from '../models/forms.model';
+import { repeatPasswordValidator } from '../../shared/validators/password.validator';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormService {
-  initRecoverForm(): FormGroup<RecoverForm> {
+  initRecoverPasswordForm(): FormGroup<RecoverPasswordForm> {
+    return new FormGroup(
+      {
+        password: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(8)],
+          nonNullable: true,
+        }),
+        repeatPassword: new FormControl('', {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+      },
+      { validators: [repeatPasswordValidator('password', 'repeatPassword')] }
+    );
+  }
+
+  initForgotPasswordForm(): FormGroup<ForgotPasswordForm> {
     return new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
@@ -83,6 +101,9 @@ export class FormService {
     }
     if (control.hasError('mask')) {
       return `Invalid ${name}.`;
+    }
+    if (control.hasError('repeatPassword')) {
+      return `Passwords are not the same.`;
     }
     return;
   }

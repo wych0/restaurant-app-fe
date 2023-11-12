@@ -49,13 +49,6 @@ strong {
   color: black;
 }
 
-.modal-header {
-  position: sticky;
-  top: 0;
-  background-color: inherit;
-  z-index: 100;
-}
-
 form {
   width: 90%;
   box-sizing: border-box;
@@ -88,4 +81,14 @@ form {
 
 .bi {
   font-size: 5rem;
+}
+
+@media (max-height: 700px) {
+  .container.details {
+    padding-top: 100px;
+  }
+
+  .modal-footer {
+    min-height: 0px;
+  }
 }

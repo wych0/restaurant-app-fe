@@ -1,16 +1,18 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-export function passwordValidator(): ValidatorFn {
-  return (
-    control: AbstractControl
-  ): { [key: string]: { value: string } } | null => {
-    const strongPasswordPattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*,.]).{8,}$/;
-    const value = control.value;
-    if (!value || strongPasswordPattern.test(value)) {
-      return null;
+export function repeatPasswordValidator(
+  passwordControlName: string,
+  repeatPasswordName: string
+): ValidatorFn {
+  return (control: AbstractControl) => {
+    const repeatPasswordControl = control.get(repeatPasswordName);
+    const passwordValue = control.get(passwordControlName)?.value;
+    const repeatPasswordValue = control.get(repeatPasswordName)?.value;
+
+    if (passwordValue !== repeatPasswordValue) {
+      repeatPasswordControl?.setErrors({ repeatPassword: true });
     }
 
-    return { password: { value } };
+    return null;
   };
 }

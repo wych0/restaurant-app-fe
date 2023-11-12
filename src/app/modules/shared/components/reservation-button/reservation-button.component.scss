@@ -1,20 +1,30 @@
 .btn-reservation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px;
   text-transform: uppercase;
   line-height: 40px;
-  font-size: 18px;
-  z-index: 80;
   border-radius: 0;
   font-weight: 500;
   color: #4e5140;
   border: none;
 }
 
-.btn-reservation:hover {
+.btn-reservation-home {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  font-size: 18px;
+  z-index: 80;
+}
+
+.btn-reservation-account {
+  width: 150px;
+  font-size: 16px;
+  background-color: #f3f2f1;
+  margin: 10px 0;
+}
+
+.btn-reservation-home:hover {
   background-color: rgba(78, 81, 64, 0.6);
   color: white;
 }

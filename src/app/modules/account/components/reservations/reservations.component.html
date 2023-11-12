@@ -1,0 +1,57 @@
+<div class="container-reservations mat-elevation-z8 shadow-none mb-2">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="container-table">
+    <table mat-table [dataSource]="data" matSort>
+      <ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ formatDate(element.date) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#detailsModal"
+              (click)="getReservationDetails(element.id)"
+            >
+              More
+            </button>
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">You dont have any reservations.</td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator
+    [length]="resultsLength"
+    [pageSizeOptions]="[5, 10]"
+  ></mat-paginator>
+</div>
+
+<app-reservation-details-modal
+  [reservationDetails]="reservationDetails"
+  (reservationConfirmed)="reservationConfirmed($event)"
+></app-reservation-details-modal>

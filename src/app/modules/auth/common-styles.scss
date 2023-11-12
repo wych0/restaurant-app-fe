@@ -7,3 +7,22 @@ h1 {
   font-size: 50px;
   margin-bottom: 20px;
 }
+
+.form-field.button {
+  min-height: 42px;
+}
+
+.alert {
+  padding: 0 10px;
+}
+
+.text-error {
+  font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 14px;
+}
+
+.bi {
+  font-size: 25px;
+  flex-basis: 20%;
+}

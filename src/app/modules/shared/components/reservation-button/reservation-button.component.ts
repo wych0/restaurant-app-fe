@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { fadeIn } from '../../constants/animations';
 
 @Component({
@@ -7,6 +7,19 @@ import { fadeIn } from '../../constants/animations';
   styleUrls: ['./reservation-button.component.scss'],
   animations: [fadeIn],
 })
-export class ReservationButtonComponent {
+export class ReservationButtonComponent implements OnInit {
+  @Input() displayedOn!: string;
+  buttonClass!: string;
   constructor() {}
+
+  ngOnInit(): void {
+    switch (this.displayedOn) {
+      case 'account':
+        this.buttonClass = 'btn-reservation-account';
+        break;
+      default:
+        this.buttonClass = 'btn-reservation-home';
+        break;
+    }
+  }
 }

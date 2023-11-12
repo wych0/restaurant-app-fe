@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './modules/core/components/page-not-found/page-not-found.component';
+import { UnauthGuard, authGuard } from './modules/core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
+    canActivate: [UnauthGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((module) => module.AuthModule),
   },
@@ -26,8 +27,23 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'account',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./modules/account/account.module').then(
+        (module) => module.AccountModule
+      ),
+  },
+  {
+    path: 'confirm-reservation/:token',
+    loadChildren: () =>
+      import('./modules/confirm-reservation/confirm-reservation.module').then(
+        (module) => module.ConfirmReservationModule
+      ),
+  },
+  {
     path: '**',
-    component: PageNotFoundComponent,
+    redirectTo: '',
   },
 ];
 

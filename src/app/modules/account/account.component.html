@@ -1,0 +1,48 @@
+<div class="container d-flex flex-wrap">
+  <div
+    class="nav nav-pills align-items-center bg-primary shadow"
+    id="v-pills-tab"
+    role="tablist"
+    aria-orientation="vertical"
+  >
+    <button
+      class="nav-link active"
+      id="v-pills-reservations-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-reservations"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-reservations"
+      aria-selected="true"
+      (click)="changeDisplay()"
+    >
+      <i class="bi bi-calendar-day"></i>
+      Reservations
+    </button>
+    <button
+      class="nav-link"
+      id="v-pills-profile-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#v-pills-profile"
+      type="button"
+      role="tab"
+      aria-controls="v-pills-profile"
+      aria-selected="false"
+    >
+      <i class="bi bi-person-fill-lock"></i>
+      Password
+    </button>
+    <app-reservation-button displayedOn="account"></app-reservation-button>
+  </div>
+  <div class="content tab-content shadow" id="v-pills-tabContent">
+    <div
+      class="tab-pane fade show active"
+      id="v-pills-reservations"
+      role="tabpanel"
+      aria-labelledby="v-pills-reservations-tab"
+      tabindex="0"
+    >
+      <app-reservations></app-reservations>
+    </div>
+  </div>
+</div>

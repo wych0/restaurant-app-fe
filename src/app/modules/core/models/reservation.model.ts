@@ -10,6 +10,39 @@ export interface Reservation {
   additionalOptions?: AdditionalOptions;
   personalData: PersonalData;
   peopleNumber: number;
+  userId?: string;
+}
+
+export interface UserReservation {
+  id: string;
+  date: Date;
+  status: string;
+}
+
+export interface ReservationDetails {
+  id: string;
+  date: Date;
+  status: string;
+  hour: string;
+  peopleNumber: number;
+  tableNumber: number;
+  personalData: PersonalData;
+  additionalOptions: AdditionalOptions;
+  requests: string;
+  confirmationToken: string;
+}
+
+export interface GetUserReservationsResponse {
+  reservations: UserReservation[];
+  totalCount: number;
+}
+
+export interface GetReservationsParams {
+  sort: string;
+  dir: string;
+  page: number;
+  size: number;
+  term?: string;
 }
 
 export type CreateReservation = Omit<Reservation, 'id' | 'table' | 'status'>;
@@ -23,4 +56,8 @@ export interface AdditionalOptions {
   wheelchair?: boolean;
   baby?: boolean;
   cake?: boolean;
+}
+
+export interface MessageResponse {
+  message: string;
 }
