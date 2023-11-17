@@ -17,6 +17,7 @@ export interface UserReservation {
   id: string;
   date: Date;
   status: string;
+  hour: string;
 }
 
 export interface ReservationDetails {
@@ -29,7 +30,7 @@ export interface ReservationDetails {
   personalData: PersonalData;
   additionalOptions: AdditionalOptions;
   requests: string;
-  confirmationToken: string;
+  cancellationReason?: string;
 }
 
 export interface GetUserReservationsResponse {
@@ -42,7 +43,16 @@ export interface GetReservationsParams {
   dir: string;
   page: number;
   size: number;
+  status?: string;
   term?: string;
+}
+
+export interface CreateReservationResponse {
+  date: Date;
+  hour: string;
+  peopleNumber: number;
+  tableNumber: number;
+  personalData: PersonalData;
 }
 
 export type CreateReservation = Omit<Reservation, 'id' | 'table' | 'status'>;

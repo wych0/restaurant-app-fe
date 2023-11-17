@@ -9,47 +9,49 @@ import {
   RegisterData,
   ResendActivationEmailData,
   SendRecoverPasswordEmailData,
-  User,
 } from '../models/auth.model';
+import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
-
-const apiUrl = `${environment.apiUrl}/auth`;
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private apiUrl = `${environment.apiUrl}/auth`;
   constructor(private http: HttpClient) {}
 
   login(body: LoginData): Observable<User> {
-    return this.http.post<User>(`${apiUrl}/login`, body);
+    return this.http.post<User>(`${this.apiUrl}/login`, body);
   }
 
   autologin(): Observable<User> {
-    return this.http.post<User>(`${apiUrl}/autologin`, {});
+    return this.http.post<User>(`${this.apiUrl}/autologin`, {});
   }
 
   register(body: RegisterData): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`${apiUrl}/register`, body);
+    return this.http.post<MessageResponse>(`${this.apiUrl}/register`, body);
   }
 
   logout(): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`${apiUrl}/logout`, {});
+    return this.http.post<MessageResponse>(`${this.apiUrl}/logout`, {});
   }
 
   refresh(): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`${apiUrl}/refresh`, {});
+    return this.http.post<MessageResponse>(`${this.apiUrl}/refresh`, {});
   }
 
   activate(token: string): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`${apiUrl}/activate/${token}`, {});
+    return this.http.post<MessageResponse>(
+      `${this.apiUrl}/activate/${token}`,
+      {}
+    );
   }
 
   resendActivationEmail(
     body: ResendActivationEmailData
   ): Observable<MessageResponse> {
     return this.http.post<MessageResponse>(
-      `${apiUrl}/resend-activation-email`,
+      `${this.apiUrl}/resend-activation-email`,
       body
     );
   }
@@ -58,21 +60,24 @@ export class AuthService {
     body: RecoverPasswordData,
     token: string
   ): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`${apiUrl}/recover/${token}`, body);
+    return this.http.post<MessageResponse>(
+      `${this.apiUrl}/recover/${token}`,
+      body
+    );
   }
 
   sendRecoverPasswordEmail(
     body: SendRecoverPasswordEmailData
   ): Observable<MessageResponse> {
     return this.http.post<MessageResponse>(
-      `${apiUrl}/send-recover-password-email`,
+      `${this.apiUrl}/send-recover-password-email`,
       body
     );
   }
 
   checkRecoveryToken(token: string): Observable<MessageResponse> {
     return this.http.get<MessageResponse>(
-      `${apiUrl}/check-recovery-token/${token}`
+      `${this.apiUrl}/check-recovery-token/${token}`
     );
   }
 }

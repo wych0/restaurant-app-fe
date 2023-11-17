@@ -13,19 +13,35 @@
   min-width: 300px;
   flex-basis: 100%;
   row-gap: 5px;
+  align-items: center;
 }
 
 .container-hour {
   max-height: 40px;
 }
 
-.container.info {
-  min-height: 225px;
+.input-group {
+  width: 200px;
+  height: 50px;
+  border: 1px solid rgba(78, 81, 64, 0.5);
+  box-shadow: 0 0 5px rgba(78, 81, 64, 0.5);
+  border-radius: 5px;
 }
 
-.form-select {
-  width: 250px;
-  height: 50px;
+.input-group:focus {
+  box-shadow: 0 0 8px rgba(78, 81, 64, 0.8);
+}
+
+.input-group-text {
+  background-color: white;
+  padding-right: 0px;
+}
+
+.form-select,
+.form-select:focus,
+.input-group-text {
+  box-shadow: none;
+  border: none;
 }
 
 .btn-hour {
@@ -41,12 +57,11 @@
 }
 
 .reservation-details {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
-strong {
+.reservation-details-strong {
   font-weight: 500;
-  color: black;
 }
 
 form {
@@ -56,10 +71,8 @@ form {
 
 .form-field {
   width: 300px;
-}
-
-.modal-footer {
-  min-height: 60px;
+  padding: 0px;
+  padding: 0 10px;
 }
 
 .text-area {
@@ -68,7 +81,7 @@ form {
 
 .container-additional-options {
   width: 600px;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 .form-control::placeholder {
@@ -83,8 +96,51 @@ form {
   font-size: 5rem;
 }
 
+.bi.bi-person-fill {
+  font-size: 1.5rem;
+}
+
+.container-date-info {
+  width: 350px;
+}
+
+h1.info-status {
+  flex-basis: 100%;
+}
+
+@media (max-width: 991.9px) {
+  .form-field {
+    width: 600px;
+    padding: 0px;
+  }
+
+  .right-side {
+    width: 501px;
+  }
+}
+
+@media (max-width: 722.9px) {
+  .right-side {
+    min-height: 311px;
+  }
+}
+
+@media (max-width: 556.9px) {
+  .right-side {
+    width: 300px;
+  }
+}
+
 @media (max-height: 700px) {
   .container.details {
+    padding-top: 130px;
+  }
+
+  .container.info {
+    padding-top: 100px;
+  }
+
+  .left-side {
     padding-top: 100px;
   }
 

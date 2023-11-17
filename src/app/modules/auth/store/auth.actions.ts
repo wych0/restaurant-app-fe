@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { LoginData, RegisterData, User } from '../../core/models/auth.model';
+import { LoginData, RegisterData } from '../../core/models/auth.model';
+import { User } from '../../core/models/user.model';
 import { Error } from '../../core/models/error.model';
 
 const LOGIN_TYPE = '[Auth] Login';

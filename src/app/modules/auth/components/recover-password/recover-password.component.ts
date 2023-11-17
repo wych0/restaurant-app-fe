@@ -57,7 +57,7 @@ export class RecoverPasswordComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.notifierService.notify('success', response.message);
-            this.router.navigate(['/']);
+            this.router.navigate(['/auth']);
           },
           error: (response) => {
             console.log(response.error.message);

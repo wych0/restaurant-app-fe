@@ -5,10 +5,8 @@
   @fadeIn
 >
   <h1 class="text-primary text-center">Register</h1>
-  <div *ngIf="error$ | async as error" class="alert mb-1 mx-4" role="alert">
-    <div
-      class="d-flex align-items-center justify-content-center text-center flex-wrap"
-    >
+  <div *ngIf="error$ | async as error" class="alert mb-1" role="alert">
+    <div class="d-flex align-items-center">
       <i class="bi bi-x-square-fill text-danger m-0"></i>
       <span class="text-error">{{ error.error }}</span>
     </div>

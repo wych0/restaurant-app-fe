@@ -21,7 +21,7 @@
           (click)="resetValues()"
         ></button>
       </div>
-      <div class="modal-body d-flex align-items-center">
+      <div class="modal-body d-flex align-items-center justify-content-center">
         <div *ngIf="!selectedHour" @fadeIn>
           <div class="container-lg d-flex flex-wrap justify-content-around">
             <div class="left-side">
@@ -38,32 +38,38 @@
             <div
               class="right-side d-flex flex-wrap justify-content-center align-items-start"
             >
-              <select
-                class="form-select mb-2"
-                id="peopleSelect"
-                aria-label="Default select example"
-                [(ngModel)]="selectedPeopleNumber"
-                (ngModelChange)="dataSelected()"
-              >
-                <option value="1" selected>One People</option>
-                <option value="2">Two People</option>
-                <option value="3">Three People</option>
-                <option value="4">Four People</option>
-              </select>
+              <div class="input-group mb-2">
+                <label class="input-group-text" for="peopleSelect"
+                  ><i class="bi bi-person-fill text-primary"></i
+                ></label>
+                <select
+                  class="form-select"
+                  id="peopleSelect"
+                  aria-label="People number"
+                  [(ngModel)]="selectedPeopleNumber"
+                  (ngModelChange)="dataSelected()"
+                >
+                  <option value="1" selected>One People</option>
+                  <option value="2">Two People</option>
+                  <option value="3">Three People</option>
+                  <option value="4">Four People</option>
+                </select>
+              </div>
               <ng-container *ngIf="!selectedDate">
-                <div class="text-center" @fadeIn>
+                <div class="container-date-info text-center" @fadeIn>
                   <h5>Please select a date</h5>
                   <h6>So that we can show the available hours</h6>
                 </div>
               </ng-container>
               <ng-container *ngIf="selectedDate">
                 <div
-                  class="container-hours d-flex flex-wrap justify-content-center align-items-center"
+                  class="container-hours d-flex flex-wrap justify-content-center"
                 >
                   <app-spinner [size]="spinnerSize"></app-spinner>
+
                   <ng-container
                     *ngIf="hoursLoaded && availableHours.length === 0"
-                    ><div class="text-center" @fadeIn>
+                    ><div class="container-date-info text-center" @fadeIn>
                       <h5>We are sorry, all hours are reserved</h5>
                       <h6>Please select a different date</h6>
                     </div>
@@ -89,9 +95,16 @@
             <div class="text-center">
               <span class="reservation-details text-primary">
                 Reservation for
-                <strong>{{ selectedPeopleNumber }} people</strong> on
-                <strong>{{ formatedDate }}</strong> at
-                <strong>{{ selectedHour }}</strong
+                <strong class="reservation-details-strong"
+                  >{{ selectedPeopleNumber }} people</strong
+                ><br />on
+                <strong class="reservation-details-strong">{{
+                  formatedDate
+                }}</strong>
+                at
+                <strong class="reservation-details-strong">{{
+                  selectedHour
+                }}</strong
                 >.
               </span>
             </div>
@@ -210,13 +223,13 @@
               </div>
               <div class="form-field input-field text-area">
                 <label class="form-label" for="requestsInput"
-                  >Optional requests</label
+                  >Special requests</label
                 >
                 <textarea
                   type="text"
                   class="form-control"
                   formControlName="requests"
-                  placeholder="Optional requests"
+                  placeholder="If you have any special requests please enter them here. (Optional)"
                   id="requestsInput"
                   rows="2"
                 ></textarea>
@@ -267,8 +280,10 @@
           ><div
             class="container info d-flex flex-wrap justify-content-center align-items-center"
           >
-            <app-spinner [size]="spinnerSize"></app-spinner>
-            <div class="container-sm text-center">
+            <div
+              class="container info-status d-flex flex-wrap justify-content-center text-center mb-5"
+            >
+              <app-spinner [size]="spinnerSize" class="mb-4"></app-spinner>
               <i
                 *ngIf="creatingStatus === 'Created'"
                 class="bi bi-check-square-fill text-primary"
@@ -277,16 +292,55 @@
                 *ngIf="creatingStatus === 'Failed'"
                 class="bi bi-x-square-fill text-danger"
               ></i>
-              <h2>
+              <h1 class="info-status mb-0">
                 {{
                   creatingStatus === "Created"
-                    ? "Reservation completed!"
+                    ? "Reservation created!"
                     : creatingStatus === "Creating"
                     ? "Reservation creating!"
-                    : "Reservation failed!"
+                    : "Reservation creating failed!"
                 }}
-              </h2>
-              <h6 class="px-2 my-4">{{ creatingMessage }}</h6>
+              </h1>
+              <h6 class="px-2 text-primary" [innerHTML]="creatingMessage"></h6>
+            </div>
+
+            <div class="container text-center">
+              <ng-container *ngIf="createdReservation">
+                <h3>Cancel Reservation</h3>
+                <h6 class="mb-3 px-2 text-primary">
+                  {{
+                    userId
+                      ? "You can cancel reservation in your reservations history or by contacting our team."
+                      : "You can cancel reservation by contacting our team."
+                  }}
+                  Please note that cancellation is possible
+                  <strong>at least 12 hours before</strong>
+                  the reservation date.
+                </h6>
+                <h6 class="mb-0 text-primary">Tel: 000 000 000</h6>
+                <h6 class="mb-5 text-primary">E-mail: navbar@example.com</h6>
+                <h3>Reservation details</h3>
+                <h6 class="mb-0 text-primary">
+                  <span class="text-capitalize"
+                    >{{ createdReservation.personalData.firstName + " " }}
+                  </span>
+                  <span class="text-capitalize">{{
+                    createdReservation.personalData.secondName
+                  }}</span>
+                </h6>
+                <h6 class="mb-0 text-primary">
+                  {{ createdReservation.personalData.email + ", "
+                  }}{{ createdReservation.personalData.phone }}
+                </h6>
+                <h6 class="text-primary mb-0">
+                  on {{ formatedDate }} at {{ createdReservation.hour }}
+                </h6>
+                <h6 class="text-primary">
+                  for
+                  {{ createdReservation.peopleNumber }} people, table number
+                  {{ createdReservation.tableNumber }}
+                </h6>
+              </ng-container>
             </div>
           </div></ng-container
         >
@@ -294,7 +348,7 @@
 
       <div class="modal-footer">
         <button
-          *ngIf="selectedHour && creatingStatus !== 'Created'"
+          *ngIf="selectedHour && creatingStatus === 'Failed'"
           type="button"
           class="btn btn-outline-primary btn-lg"
           (click)="hourSelected(null)"

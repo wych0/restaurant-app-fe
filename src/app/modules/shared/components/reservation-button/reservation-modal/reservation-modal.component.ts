@@ -6,6 +6,7 @@ import {
   AdditionalOptions,
   AvailableHoursParams,
   CreateReservation,
+  CreateReservationResponse,
 } from 'src/app/modules/core/models/reservation.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/modules/core/services/form-service';
@@ -34,6 +35,7 @@ export class ReservationModalComponent implements OnInit {
   hoursLoaded: boolean = false;
   creatingStatus: string | null = null;
   creatingMessage: string | null = null;
+  createdReservation: CreateReservationResponse | null = null;
   reservationForm: FormGroup<ReservationForm> =
     this.formService.initReservationForm();
   selectedDate: Date | null = null;
@@ -63,15 +65,15 @@ export class ReservationModalComponent implements OnInit {
         date: this.selectedDate,
         peopleNumber: this.selectedPeopleNumber,
       };
-      this.reservationService.getAvailableHours(params).subscribe(
-        (availableHours) => {
+      this.reservationService.getAvailableHours(params).subscribe({
+        next: (availableHours) => {
           this.availableHours = availableHours;
           this.hoursLoaded = true;
         },
-        (error) => {
+        error: (error) => {
           console.log(error);
-        }
-      );
+        },
+      });
     }
   }
 
@@ -116,6 +118,7 @@ export class ReservationModalComponent implements OnInit {
           this.creatingStatus = 'Created';
           this.reservationService.setReservationCreated();
           this.creatingMessage = successfulMessage;
+          this.createdReservation = reservation;
         },
         error: (error) => {
           this.creatingStatus = 'Failed';
@@ -136,6 +139,7 @@ export class ReservationModalComponent implements OnInit {
     this.creatingMessage = null;
     this.selectedPeopleNumber = 1;
     this.availableHours = [];
+    this.createdReservation = null;
   }
 
   getErrorMessage(control: FormControl, name?: string) {

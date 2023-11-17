@@ -56,6 +56,7 @@ export class AuthEffects {
         return this.authService.logout().pipe(
           map((response) => {
             this.notifierService.notify('success', response.message);
+            this.router.navigate(['/']);
             return AuthActions.logoutSuccess();
           }),
           catchError(() => of(AuthActions.logoutFailure()))

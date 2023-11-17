@@ -21,12 +21,12 @@
     </button>
     <button
       class="nav-link"
-      id="v-pills-profile-tab"
+      id="v-pills-change-password-tab"
       data-bs-toggle="pill"
-      data-bs-target="#v-pills-profile"
+      data-bs-target="#v-pills-change-password"
       type="button"
       role="tab"
-      aria-controls="v-pills-profile"
+      aria-controls="v-pills-change-password"
       aria-selected="false"
     >
       <i class="bi bi-person-fill-lock"></i>
@@ -43,6 +43,15 @@
       tabindex="0"
     >
       <app-reservations></app-reservations>
+    </div>
+    <div
+      class="tab-pane fade show"
+      id="v-pills-change-password"
+      role="tabpanel"
+      aria-labelledby="v-pills-change-password-tab"
+      tabindex="0"
+    >
+      <app-change-password></app-change-password>
     </div>
   </div>
 </div>

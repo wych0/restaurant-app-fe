@@ -9,5 +9,27 @@ h5 {
 strong {
   font-weight: 500;
   color: black;
+}
+
+.modal-reservation-details {
+  min-height: 284px;
+}
+
+.container-reservation-details {
+  height: 100%;
+}
+
+.alert {
+  padding: 0px;
+}
+
+.text-error {
+  font-weight: 500;
   font-size: 1rem;
+  line-height: 24px;
+  margin-left: 4px;
+}
+
+.bi {
+  font-size: 40px;
 }

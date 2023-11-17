@@ -1,9 +1,3 @@
-export interface User {
-  email: string;
-  role: string;
-  id: string;
-}
-
 export interface AuthData {
   email: string;
   password: string;

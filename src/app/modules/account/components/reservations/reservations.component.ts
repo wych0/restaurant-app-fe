@@ -11,12 +11,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subscription, map, merge, startWith, switchMap } from 'rxjs';
 import {
   GetReservationsParams,
-  ReservationDetails,
   UserReservation,
 } from '../../../core/models/reservation.model';
 import { ReservationService } from '../../../core/services/reservation.service';
 import { Size } from '../../../core/models/spinner.model';
 import { format } from 'date-fns';
+import { ReservationDetailsModalComponent } from '../reservation-details-modal/reservation-details-modal.component';
 
 @Component({
   selector: 'app-reservations',
@@ -30,10 +30,12 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
   data!: MatTableDataSource<UserReservation>;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(ReservationDetailsModalComponent)
+  detailsModal!: ReservationDetailsModalComponent;
   resultsLength = 0;
   spinnerSize: Size = Size.BIG;
   isLoadingResults = true;
-  reservationDetails!: ReservationDetails;
+  selectedFilter: string | undefined = '';
 
   constructor(private reservationService: ReservationService) {}
   ngOnInit(): void {
@@ -50,46 +52,50 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
     this.getUserReservations();
   }
 
-  getReservationDetails(id: string): void {
-    this.reservationService.getReservationDetails(id).subscribe({
-      next: (reservationDetails) => {
-        this.reservationDetails = reservationDetails;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
   getUserReservations(): void {
     this.reservationsDataSub.unsubscribe();
-    this.reservationsDataSub = merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          const params: GetReservationsParams = {
-            sort: this.sort.active,
-            dir: this.sort.direction,
-            page: this.paginator.pageIndex + 1,
-            size: this.paginator.pageSize,
-          };
-          return this.reservationService.getUserReservations(params);
-        }),
-        map((data) => {
-          this.isLoadingResults = false;
-          this.resultsLength = data.totalCount;
-          return data.reservations;
-        })
+    if (this.sort) {
+      this.reservationsDataSub = merge(
+        this.sort.sortChange,
+        this.paginator.page
       )
-      .subscribe(
-        (reservations) =>
-          (this.data = new MatTableDataSource<UserReservation>(reservations))
-      );
+        .pipe(
+          startWith({}),
+          switchMap(() => {
+            this.isLoadingResults = true;
+            const params: GetReservationsParams = {
+              sort: this.sort.active,
+              dir: this.sort.direction,
+              page: this.paginator.pageIndex + 1,
+              size: this.paginator.pageSize,
+              status: this.selectedFilter,
+            };
+            return this.reservationService.getUserReservations(params);
+          }),
+          map((data) => {
+            this.isLoadingResults = false;
+            this.resultsLength = data.totalCount;
+            return data.reservations;
+          })
+        )
+        .subscribe(
+          (reservations) =>
+            (this.data = new MatTableDataSource<UserReservation>(reservations))
+        );
+    }
   }
 
-  reservationConfirmed(id: string): void {
-    this.getReservationDetails(id);
+  applyFilter(): void {
+    this.paginator.pageIndex = 0;
+    this.getUserReservations();
+  }
+
+  getReservationDetails(id: string): void {
+    this.detailsModal.getReservationDetails(id);
+  }
+
+  reservationUpdated(): void {
+    this.paginator.pageIndex = 0;
     this.getUserReservations();
   }
 

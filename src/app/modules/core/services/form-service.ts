@@ -6,6 +6,7 @@ import {
   RegisterForm,
   ReservationForm,
   ForgotPasswordForm,
+  ChangePasswordForm,
 } from '../models/forms.model';
 import { repeatPasswordValidator } from '../../shared/validators/password.validator';
 
@@ -26,6 +27,30 @@ export class FormService {
         }),
       },
       { validators: [repeatPasswordValidator('password', 'repeatPassword')] }
+    );
+  }
+
+  initChangePasswordForm(): FormGroup<ChangePasswordForm> {
+    return new FormGroup(
+      {
+        password: new FormControl('', {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+        newPassword: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(8)],
+          nonNullable: true,
+        }),
+        repeatNewPassword: new FormControl('', {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+      },
+      {
+        validators: [
+          repeatPasswordValidator('newPassword', 'repeatNewPassword'),
+        ],
+      }
     );
   }
 

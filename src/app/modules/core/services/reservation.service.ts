@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   AvailableHoursParams,
   CreateReservation,
+  CreateReservationResponse,
   GetReservationsParams,
   GetUserReservationsResponse,
   MessageResponse,
@@ -13,7 +14,6 @@ import {
 import { environment } from 'src/environments/environment.development';
 
 type Hour = string;
-type CreateReservationResponse = string;
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,10 @@ export class ReservationService {
     );
   }
 
+  cancel(id: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.apiUrl}/cancel/${id}`, {});
+  }
+
   getAvailableHours(paramsObject: AvailableHoursParams): Observable<Hour[]> {
     const params = new HttpParams({
       fromObject: {
@@ -68,6 +72,9 @@ export class ReservationService {
       params = params
         .append('sort', paramsObject.sort)
         .append('dir', paramsObject.dir);
+    }
+    if (paramsObject.status) {
+      params = params.append('status', paramsObject.status);
     }
     return this.http.get<GetUserReservationsResponse>(`${this.apiUrl}/user`, {
       params,

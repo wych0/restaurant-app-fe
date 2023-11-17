@@ -4,6 +4,7 @@
   tabindex="-1"
   aria-labelledby="detailsModalLabel"
   aria-hidden="true"
+  #detailsModal
 >
   <div
     class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down"
@@ -20,53 +21,96 @@
           aria-label="Close"
         ></button>
       </div>
-      <ng-container *ngIf="reservationDetails">
-        <div class="modal-body">
-          <p class="reservation-details text-primary">
-            Details for reservation:
-            <strong>{{ reservationDetails.id }}</strong>
-          </p>
-          <p class="reservation-details text-primary">
-            Status:
-            <strong>{{ reservationDetails.status }}</strong>
-          </p>
 
-          <p class="reservation-details text-primary mb-0">
-            Reservation in the name:
-          </p>
-          <p class="mb-0">
-            <strong
-              >{{
-                reservationDetails.personalData.firstName +
-                  " " +
-                  reservationDetails.personalData.secondName
-              }}
-            </strong>
-          </p>
-          <p class="mb-0">
-            <strong>{{ reservationDetails.personalData.phone }} </strong>
-          </p>
-          <p>
-            <strong>{{ reservationDetails.personalData.email }} </strong>
-          </p>
-
-          <button
-            class="btn btn-outline-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#cancelModal"
-          >
-            Cancel reservation
-          </button>
-          <ng-container *ngIf="reservationDetails.confirmationToken">
-            <button
-              class="btn btn-outline-primary mx-2"
-              (click)="confirmReservation()"
-            >
-              Confirm reservation
-            </button>
-          </ng-container>
+      <div
+        class="modal-body modal-reservation-details d-flex flex-wrap justify-content-center align-items-center"
+      >
+        <div *ngIf="isLoading">
+          <app-spinner [size]="spinnerSize"></app-spinner>
         </div>
-      </ng-container>
+        <div *ngIf="errorMessage" class="alert mb-1" role="alert">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-x-square-fill text-danger m-0"></i>
+            <span class="text-error">{{ errorMessage }} </span>
+          </div>
+        </div>
+        <ng-container *ngIf="reservationDetails && !isLoading">
+          <div class="container-reservation-details" @fadeIn>
+            <p class="reservation-details text-primary">
+              Details for reservation:
+              <strong>{{ reservationDetails.id }}</strong>
+            </p>
+            <p class="reservation-details text-primary mb-0">
+              Status:
+              <strong>{{ reservationDetails.status }}</strong>
+            </p>
+            <p
+              *ngIf="reservationDetails.cancellationReason"
+              class="reservation-details text-primary mb-0"
+            >
+              Cancellation reason:
+              <strong>{{ reservationDetails.cancellationReason }}</strong>
+            </p>
+            <p class="reservation-details text-primary mt-3">
+              For
+              <strong>{{ reservationDetails.peopleNumber }} people</strong> on
+              <strong>{{ formatedDate }}</strong> at
+              <strong>{{ reservationDetails.hour }}</strong
+              >, table number
+              <strong>{{ reservationDetails.tableNumber }}</strong
+              >.
+            </p>
+            <p class="reservation-details text-primary mb-0">In the name:</p>
+            <p class="mb-0">
+              <strong class="text-capitalize"
+                >{{
+                  reservationDetails.personalData.firstName +
+                    " " +
+                    reservationDetails.personalData.secondName
+                }}
+              </strong>
+            </p>
+            <p class="mb-0">
+              <strong>{{ reservationDetails.personalData.phone }} </strong>
+            </p>
+            <p>
+              <strong>{{ reservationDetails.personalData.email }} </strong>
+            </p>
+            <ng-container *ngIf="additionalOptions.length > 0"
+              ><p class="reservation-details text-primary mb-0">
+                Additional options:
+              </p>
+              <p>
+                <strong
+                  *ngFor="let option of additionalOptions; index as i"
+                  class="text-capitalize"
+                  >{{ option
+                  }}{{ i >= 0 && i < additionalOptions.length - 1 ? "," : "." }}
+                </strong>
+              </p></ng-container
+            >
+            <ng-container *ngIf="reservationDetails.requests"
+              ><p class="reservation-details text-primary mb-0">
+                Special requests:
+              </p>
+              <p>
+                <strong class="text-capitalize"
+                  >{{ reservationDetails.requests }}.
+                </strong>
+              </p></ng-container
+            >
+            <ng-container *ngIf="isCancellable()">
+              <button
+                class="btn btn-outline-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#cancelModal"
+              >
+                Cancel reservation
+              </button>
+            </ng-container>
+          </div></ng-container
+        >
+      </div>
       <div class="modal-footer"></div>
     </div>
   </div>
@@ -109,7 +153,16 @@
         >
           No, Close
         </button>
-        <button type="button" class="btn btn-primary">Yes, Cancel</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          data-bs-toggle="modal"
+          data-bs-target="#detailsModal"
+          (click)="cancelReservation()"
+        >
+          Yes, Cancel
+        </button>
       </div>
     </div>
   </div>
