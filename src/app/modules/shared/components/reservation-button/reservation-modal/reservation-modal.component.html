@@ -229,10 +229,18 @@
                   type="text"
                   class="form-control"
                   formControlName="requests"
+                  maxlength="50"
                   placeholder="If you have any special requests please enter them here. (Optional)"
                   id="requestsInput"
                   rows="2"
                 ></textarea>
+                <div class="char-counter d-flex justify-content-end">
+                  <span>
+                    {{
+                      reservationForm.controls.requests.value.length
+                    }}/50</span
+                  >
+                </div>
               </div>
               <div class="container-additional-options mt-2">
                 <h6>Additional options:</h6>

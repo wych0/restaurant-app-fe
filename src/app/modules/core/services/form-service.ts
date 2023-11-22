@@ -107,7 +107,10 @@ export class FormService {
         validators: [Validators.required, Validators.email],
         nonNullable: true,
       }),
-      requests: new FormControl('', { nonNullable: true }),
+      requests: new FormControl('', {
+        validators: [Validators.maxLength(50)],
+        nonNullable: true,
+      }),
       wheelchair: new FormControl(false, { nonNullable: true }),
       baby: new FormControl(false, { nonNullable: true }),
       cake: new FormControl(false, { nonNullable: true }),
