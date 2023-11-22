@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UnauthGuard, authGuard } from './modules/core/guards/auth.guard';
+import { authGuard, unauthGuard } from './modules/core/guards/auth.guard';
+import { workerGuard } from './modules/core/guards/role.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    canActivate: [UnauthGuard],
+    canActivate: [unauthGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((module) => module.AuthModule),
   },
@@ -32,6 +33,21 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/account/account.module').then(
         (module) => module.AccountModule
+      ),
+  },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('./modules/contact/contact.module').then(
+        (module) => module.ContactModule
+      ),
+  },
+  {
+    path: 'worker',
+    canActivate: [workerGuard],
+    loadChildren: () =>
+      import('./modules/worker/worker.module').then(
+        (module) => module.WorkerModule
       ),
   },
   {

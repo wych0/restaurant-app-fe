@@ -17,6 +17,8 @@ import { ReservationService } from '../../../core/services/reservation.service';
 import { Size } from '../../../core/models/spinner.model';
 import { format } from 'date-fns';
 import { ReservationDetailsModalComponent } from '../reservation-details-modal/reservation-details-modal.component';
+import { UserService } from 'src/app/modules/core/services/user.service';
+import { toDateWithHour } from 'src/app/modules/shared/tools/date-formatter';
 
 @Component({
   selector: 'app-reservations',
@@ -37,7 +39,10 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
   isLoadingResults = true;
   selectedFilter: string | undefined = '';
 
-  constructor(private reservationService: ReservationService) {}
+  constructor(
+    private reservationService: ReservationService,
+    private userService: UserService
+  ) {}
   ngOnInit(): void {
     this.reservationCreatedSub =
       this.reservationService.reservationCreated$.subscribe((created) => {
@@ -70,7 +75,7 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
               size: this.paginator.pageSize,
               status: this.selectedFilter,
             };
-            return this.reservationService.getUserReservations(params);
+            return this.userService.getReservations(params);
           }),
           map((data) => {
             this.isLoadingResults = false;
@@ -99,9 +104,8 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
     this.getUserReservations();
   }
 
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return format(date, 'dd.MM.yyyy');
+  formatDate(date: string, hour: string): string {
+    return toDateWithHour(date, hour);
   }
 
   ngOnDestroy(): void {

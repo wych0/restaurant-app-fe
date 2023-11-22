@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
@@ -31,6 +32,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatPaginatorModule,
     MatSortModule,
     MatChipsModule,
+    MatTooltipModule,
   ],
 })
 export class MaterialModule {}

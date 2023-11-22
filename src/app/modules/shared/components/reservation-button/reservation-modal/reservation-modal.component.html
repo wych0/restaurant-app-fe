@@ -309,7 +309,7 @@
                 <h3>Cancel Reservation</h3>
                 <h6 class="mb-3 px-2 text-primary">
                   {{
-                    userId
+                    user
                       ? "You can cancel reservation in your reservations history or by contacting our team."
                       : "You can cancel reservation by contacting our team."
                   }}
@@ -348,7 +348,9 @@
 
       <div class="modal-footer">
         <button
-          *ngIf="selectedHour && creatingStatus === 'Failed'"
+          *ngIf="
+            selectedHour && (creatingStatus === 'Failed' || !creatingStatus)
+          "
           type="button"
           class="btn btn-outline-primary btn-lg"
           (click)="hourSelected(null)"

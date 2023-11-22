@@ -6,7 +6,7 @@ import {
   CreateReservation,
   CreateReservationResponse,
   GetReservationsParams,
-  GetUserReservationsResponse,
+  GetReservationsResponse,
   MessageResponse,
   ReservationDetails,
 } from '../models/reservation.model';
@@ -30,9 +30,7 @@ export class ReservationService {
     this.reservationCreated.next(true);
   }
 
-  addReservation(
-    body: CreateReservation
-  ): Observable<CreateReservationResponse> {
+  add(body: CreateReservation): Observable<CreateReservationResponse> {
     return this.http.post<CreateReservationResponse>(this.apiUrl, body);
   }
 
@@ -47,21 +45,9 @@ export class ReservationService {
     return this.http.post<MessageResponse>(`${this.apiUrl}/cancel/${id}`, {});
   }
 
-  getAvailableHours(paramsObject: AvailableHoursParams): Observable<Hour[]> {
-    const params = new HttpParams({
-      fromObject: {
-        date: paramsObject.date.toString(),
-        peopleNumber: paramsObject.peopleNumber.toString(),
-      },
-    });
-    return this.http.get<Hour[]>(`${this.apiUrl}/availableHours`, {
-      params,
-    });
-  }
-
-  getUserReservations(
+  getAll(
     paramsObject: GetReservationsParams
-  ): Observable<GetUserReservationsResponse> {
+  ): Observable<GetReservationsResponse> {
     let params = new HttpParams({
       fromObject: {
         page: paramsObject.page,
@@ -76,12 +62,31 @@ export class ReservationService {
     if (paramsObject.status) {
       params = params.append('status', paramsObject.status);
     }
-    return this.http.get<GetUserReservationsResponse>(`${this.apiUrl}/user`, {
+    if (paramsObject.term) {
+      params = params.append('term', paramsObject.term);
+    }
+    if (paramsObject.date) {
+      params = params.append('date', paramsObject.date);
+    }
+
+    return this.http.get<GetReservationsResponse>(`${this.apiUrl}`, {
       params,
     });
   }
 
   getReservationDetails(id: string): Observable<ReservationDetails> {
     return this.http.get<ReservationDetails>(`${this.apiUrl}/${id}`);
+  }
+
+  getAvailableHours(paramsObject: AvailableHoursParams): Observable<Hour[]> {
+    const params = new HttpParams({
+      fromObject: {
+        date: paramsObject.date.toString(),
+        peopleNumber: paramsObject.peopleNumber.toString(),
+      },
+    });
+    return this.http.get<Hour[]>(`${this.apiUrl}/availableHours`, {
+      params,
+    });
   }
 }

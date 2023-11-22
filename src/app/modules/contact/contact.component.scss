@@ -1,0 +1,32 @@
+.content {
+  width: 70%;
+}
+
+.left-side {
+  margin-top: 45px;
+  width: 45%;
+}
+
+.right-side {
+  width: 50%;
+}
+
+.container-text {
+  flex-basis: 100%;
+}
+
+h6 {
+  font-weight: 300;
+}
+
+@media (max-width: 991.9px) {
+  .content {
+    width: 100%;
+    max-width: none;
+  }
+  .left-side,
+  .right-side {
+    width: 100%;
+    margin-top: 0;
+  }
+}

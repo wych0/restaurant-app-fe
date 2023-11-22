@@ -5,42 +5,54 @@
       "name": "Salami",
       "ingredients": "tomato sauce, mozzarella, salami",
       "price": 40,
-      "type": "Pizza"
+      "type": "Pizza",
+      "isSpicy": false,
+      "isVegan": false
     },
     {
       "id": 2,
       "name": "Margarita",
       "ingredients": "tomato sauce, mozzarella",
       "price": 36,
-      "type": "Pizza"
+      "type": "Pizza",
+      "isSpicy": false,
+      "isVegan": true
     },
     {
       "id": 3,
       "name": "Margarita",
       "ingredients": "tomato sauce, mozzarella",
       "price": 36,
-      "type": "Pizza"
+      "type": "Pizza",
+      "isSpicy": false,
+      "isVegan": true
     },
     {
       "id": 4,
       "name": "Bruschetta",
       "ingredients": "creamy goat cheese, prosciutto crudo, grana padano",
       "price": 30,
-      "type": "Appetizers"
+      "type": "Appetizers",
+      "isSpicy": false,
+      "isVegan": false
     },
     {
       "id": 5,
       "name": "Cremy onion soup",
       "ingredients": "with croutons and cheese",
       "price": 30,
-      "type": "Soups"
+      "type": "Soups",
+      "isSpicy": false,
+      "isVegan": true
     },
     {
       "id": 6,
       "name": "Spaghetti Carbonara",
       "ingredients": "pancetta, eggs, pecorino romano cheese",
       "price": 45,
-      "type": "Pasta"
+      "type": "Pasta",
+      "isSpicy": false,
+      "isVegan": false
     },
     {
       "id": 7,
@@ -61,47 +73,45 @@
       "name": "Margarita",
       "ingredients": "tomato sauce, mozzarella",
       "price": 36,
-      "type": "Pizza"
+      "type": "Pizza",
+      "isSpicy": false,
+      "isVegan": true
     },
     {
       "id": 10,
       "name": "Margarita",
       "ingredients": "tomato sauce, mozzarella",
       "price": 36,
-      "type": "Pizza"
+      "type": "Pizza",
+      "isSpicy": false,
+      "isVegan": true
     },
     {
       "id": 11,
       "name": "Margarita",
       "ingredients": "tomato sauce, mozzarella",
       "price": 36,
-      "type": "Pizza"
-    }
-  ],
-  "reservations": [
-    {
-      "id": 1,
-      "date": "01.11.2023",
-      "hour": "18:00",
-      "table": 1,
-      "status": "Confirmed"
+      "type": "Pizza",
+      "isSpicy": false,
+      "isVegan": true
     },
     {
-      "id": 2,
-      "date": "01.11.2023",
-      "hour": "17:00",
-      "table": 2,
-      "status": "Confirmed"
-    }
-  ],
-  "tables": [
-    {
-      "id": 1,
-      "peopleNumber": 2
+      "id": 12,
+      "name": "Diavola",
+      "ingredients": "tomato sauce, mozzarella, spicy salami",
+      "price": 40,
+      "type": "Pizza",
+      "isSpicy": true,
+      "isVegan": false
     },
     {
-      "id": 2,
-      "peopleNumber": 2
+      "id": 13,
+      "name": "All'arrabbiata",
+      "ingredients": "spicy tomato sauce, chilli pepper, garlic, basil",
+      "price": 42,
+      "type": "Pasta",
+      "isSpicy": true,
+      "isVegan": true
     }
   ]
 }

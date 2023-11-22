@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { MenuRoutingModule } from './menu-routing.module';
 import { MenuComponent } from './menu.component';
-import { DishesComponent } from './dishes/dishes.component';
+import { DishesComponent } from './components/dishes/dishes.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [MenuComponent, DishesComponent],
-  imports: [CommonModule, MenuRoutingModule],
+  imports: [SharedModule, MenuRoutingModule],
 })
 export class MenuModule {}

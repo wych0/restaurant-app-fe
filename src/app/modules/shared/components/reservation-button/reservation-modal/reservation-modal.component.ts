@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { add, format } from 'date-fns';
 import { fadeIn, fadeOut } from '../../../constants/animations';
 import { ReservationService } from 'src/app/modules/core/services/reservation.service';
@@ -19,9 +19,8 @@ import {
   usedEmailMessage,
 } from '../../../constants/reservationMessages';
 import { Size } from 'src/app/modules/core/models/spinner.model';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/app.reducer';
-import { selectAuthUser } from 'src/app/modules/auth/store/auth.selectors';
+import { UserService } from 'src/app/modules/core/services/user.service';
+import { User } from 'src/app/modules/core/models/user.model';
 
 @Component({
   selector: 'app-reservation-modal',
@@ -31,6 +30,8 @@ import { selectAuthUser } from 'src/app/modules/auth/store/auth.selectors';
   providers: [provideNgxMask()],
 })
 export class ReservationModalComponent implements OnInit {
+  @Input() user!: User | null;
+  @Output() modalClosed = new EventEmitter<void>();
   submitted: boolean = false;
   hoursLoaded: boolean = false;
   creatingStatus: string | null = null;
@@ -46,12 +47,11 @@ export class ReservationModalComponent implements OnInit {
   maxDate: Date = add(new Date(), { months: 6 });
   availableHours: string[] = [];
   spinnerSize: Size = Size.BIG;
-  userId: string | undefined;
 
   constructor(
     private reservationService: ReservationService,
     private formService: FormService,
-    private store: Store<AppState>
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {}
@@ -82,6 +82,22 @@ export class ReservationModalComponent implements OnInit {
     if (hour === null) {
       this.creatingStatus = null;
       this.dataSelected();
+    } else {
+      if (this.user) {
+        this.reservationForm.controls.email.setValue(this.user.email);
+        this.reservationForm.controls.email.disable();
+        this.userService.getPersonalData().subscribe((personalData) => {
+          if (personalData) {
+            this.reservationForm.controls.firstName.setValue(
+              personalData.firstName
+            );
+            this.reservationForm.controls.secondName.setValue(
+              personalData.secondName
+            );
+            this.reservationForm.controls.phone.setValue(personalData.phone);
+          }
+        });
+      }
     }
   }
 
@@ -90,9 +106,6 @@ export class ReservationModalComponent implements OnInit {
     if (this.reservationForm.valid) {
       this.creatingStatus = 'Creating';
       const formData = this.reservationForm.getRawValue();
-      this.store.select(selectAuthUser).subscribe((user) => {
-        this.userId = user?.id;
-      });
       const additionalOptions: AdditionalOptions = {
         wheelchair: formData.wheelchair,
         baby: formData.baby,
@@ -111,9 +124,9 @@ export class ReservationModalComponent implements OnInit {
         requests: formData.requests,
         personalData,
         additionalOptions,
-        userId: this.userId,
+        userId: this.user ? this.user.id : undefined,
       };
-      this.reservationService.addReservation(reservation).subscribe({
+      this.reservationService.add(reservation).subscribe({
         next: (reservation) => {
           this.creatingStatus = 'Created';
           this.reservationService.setReservationCreated();
@@ -140,6 +153,8 @@ export class ReservationModalComponent implements OnInit {
     this.selectedPeopleNumber = 1;
     this.availableHours = [];
     this.createdReservation = null;
+    this.reservationForm.controls.email.enable();
+    this.modalClosed.emit();
   }
 
   getErrorMessage(control: FormControl, name?: string) {

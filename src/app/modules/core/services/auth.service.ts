@@ -13,6 +13,8 @@ import {
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 
+type isAuthResponse = boolean;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,6 +28,10 @@ export class AuthService {
 
   autologin(): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/autologin`, {});
+  }
+
+  isAuth(): Observable<isAuthResponse> {
+    return this.http.get<isAuthResponse>(`${this.apiUrl}/isAuth`);
   }
 
   register(body: RegisterData): Observable<MessageResponse> {

@@ -1,37 +1,36 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { AppState } from 'src/app/store/app.reducer';
-import { selectAuthUser } from '../../auth/store/auth.selectors';
 import { inject } from '@angular/core';
-import { map } from 'rxjs';
+import { map, take } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const store = inject(Store<AppState>);
   const router = inject(Router);
-
-  return store.pipe(
-    select(selectAuthUser),
-    map((user) => {
-      if (!user) {
-        router.navigate(['/']);
-        return false;
-      }
-      return true;
-    })
-  );
+  return inject(AuthService)
+    .isAuth()
+    .pipe(
+      (take(1),
+      map((isAuth) => {
+        if (!isAuth) {
+          router.navigate(['/auth']);
+          return false;
+        }
+        return true;
+      }))
+    );
 };
 
-export const UnauthGuard: CanActivateFn = (route, state) => {
-  const store = inject(Store<AppState>);
+export const unauthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  return store.pipe(
-    select(selectAuthUser),
-    map((user) => {
-      if (user) {
-        router.navigate(['/']);
-        return false;
-      }
-      return true;
-    })
-  );
+  return inject(AuthService)
+    .isAuth()
+    .pipe(
+      (take(1),
+      map((isAuth) => {
+        if (isAuth) {
+          router.navigate(['/']);
+          return false;
+        }
+        return true;
+      }))
+    );
 };

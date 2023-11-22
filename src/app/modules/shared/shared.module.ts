@@ -8,6 +8,7 @@ import { SwiperDirective } from './directives/swiper.directive';
 import { ReservationModalComponent } from './components/reservation-button/reservation-modal/reservation-modal.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxMaskDirective } from 'ngx-mask';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NgxMaskDirective } from 'ngx-mask';
     MaterialModule,
     FormsModule,
     NgxMaskDirective,
+    GoogleMapsModule,
   ],
   exports: [
     CommonModule,
@@ -33,6 +35,7 @@ import { NgxMaskDirective } from 'ngx-mask';
     FocusInvalidInputDirective,
     SwiperDirective,
     SpinnerComponent,
+    GoogleMapsModule,
   ],
 })
 export class SharedModule {}

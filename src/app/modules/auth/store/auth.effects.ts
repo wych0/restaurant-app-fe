@@ -22,7 +22,8 @@ export class AuthEffects {
       switchMap((action) => {
         return this.authService.login(action.loginData).pipe(
           map((user) => {
-            this.router.navigate(['/']);
+            const path = user.role === 'CLIENT' ? '/' : '/worker';
+            this.router.navigate([path]);
             return AuthActions.loginSuccess({ user });
           }),
           catchError((response) => {
@@ -42,7 +43,9 @@ export class AuthEffects {
       ofType(AuthActions.autoLogin),
       switchMap(() => {
         return this.authService.autologin().pipe(
-          map((user) => AuthActions.autoLoginSuccess({ user })),
+          map((user) => {
+            return AuthActions.autoLoginSuccess({ user });
+          }),
           catchError(() => of(AuthActions.autoLoginFailure()))
         );
       })

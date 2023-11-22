@@ -1,0 +1,14 @@
+.container-nav {
+  min-width: 275px;
+}
+
+.nav-link {
+  color: white;
+  border-radius: 0;
+  font-weight: 500;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  background-color: #767968;
+}

@@ -1,0 +1,99 @@
+.container-reservations {
+  margin-top: 24px;
+  position: relative;
+}
+
+.container-table {
+  position: relative;
+  min-height: 316px;
+  max-height: 65vh;
+  overflow: auto;
+  position: relative;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+  column-gap: 20px;
+}
+
+.form-control {
+  width: 250px;
+}
+
+.input-group {
+  width: 175px;
+  height: 40px;
+  border: 1px solid rgba(78, 81, 64, 0.5);
+  box-shadow: 0 0 5px rgba(78, 81, 64, 0.5);
+  border-radius: 0px;
+}
+
+.input-group:focus {
+  box-shadow: 0 0 8px rgba(78, 81, 64, 0.8);
+}
+
+.input-group-text {
+  background-color: white;
+  padding: 0px 0px 0px 12px;
+}
+
+.form-select,
+.form-select:focus,
+.input-group-text {
+  box-shadow: none;
+  border: none;
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 10px 10px;
+}
+
+th {
+  font-size: 1.1rem;
+}
+
+td {
+  font-size: 0.9rem;
+}
+
+.mat-column-id {
+  max-width: 120px;
+}
+
+h3 {
+  font-weight: 800;
+}
+
+.btn:disabled {
+  background-color: #6c757d;
+  border: none;
+  color: #d6d6d6;
+}

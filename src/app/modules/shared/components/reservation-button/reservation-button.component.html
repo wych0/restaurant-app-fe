@@ -5,8 +5,12 @@
   data-bs-toggle="modal"
   data-bs-target="#staticBackdrop"
   [ngClass]="buttonClass"
+  (click)="initReservationModal()"
 >
   Reservation
 </button>
 
-<app-reservation-modal></app-reservation-modal>
+<app-reservation-modal
+  [user]="user"
+  (modalClosed)="ngOnDestroy()"
+></app-reservation-modal>

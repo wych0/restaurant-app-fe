@@ -33,6 +33,11 @@ export interface ReservationDetails {
   cancellationReason?: string;
 }
 
+export interface GetReservationsResponse {
+  reservations: Reservation[];
+  totalCount: number;
+}
+
 export interface GetUserReservationsResponse {
   reservations: UserReservation[];
   totalCount: number;
@@ -45,6 +50,7 @@ export interface GetReservationsParams {
   size: number;
   status?: string;
   term?: string;
+  date?: string;
 }
 
 export interface CreateReservationResponse {

@@ -4,4 +4,6 @@ export interface Dish {
   ingredients: string;
   price: number;
   type: string;
+  isSpicy: boolean;
+  isVegan: boolean;
 }

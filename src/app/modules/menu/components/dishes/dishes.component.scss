@@ -11,7 +11,7 @@
 
 .text {
   float: left;
-  font-size: 28px;
+  font-size: 1.8rem;
 }
 
 .text.dish.name {
@@ -24,6 +24,36 @@
 
 .text.dish.ingredients {
   font-size: 22px;
+}
+
+.dishes-container {
+  flex-basis: 100%;
+}
+
+.dish-icon {
+  font-size: 1.8rem;
+}
+
+.btn-filter.spicy {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-filter.vegan {
+  color: #198754;
+  border-color: #198754;
+}
+
+.btn-filter.active {
+  color: white;
+}
+
+.active.spicy {
+  background-color: #dc3545;
+}
+
+.active.vegan {
+  background-color: #198754;
 }
 
 @media (max-width: 600px) {

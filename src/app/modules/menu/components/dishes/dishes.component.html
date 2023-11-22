@@ -1,0 +1,39 @@
+<div class="image" [style.background-image]="imageLink"></div>
+<div
+  *ngIf="type !== 'Desserts' && type !== 'Drinks'"
+  class="d-flex justify-content-center"
+>
+  <button
+    type="button"
+    class="btn btn-filter m-2 spicy"
+    (click)="filterDishes('spicy')"
+    [class.active]="spicySelected"
+  >
+    Spicy <i class="bi bi-fire"></i>
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-filter m-2 vegan"
+    (click)="filterDishes('vegan')"
+    [class.active]="veganSelected"
+  >
+    Vegan <i class="bi bi-flower3"></i>
+  </button>
+</div>
+<div class="container d-flex flex-wrap justify-content-center">
+  <div class="dishes-container d-flex flex-wrap justify-content-around">
+    <ng-container *ngFor="let dish of dishes">
+      <div class="dish-container m-2 align">
+        <span class="text text-primary dish name">{{ dish.name }} </span>
+        <i *ngIf="dish.isSpicy" class="bi bi-fire text-danger dish-icon"></i>
+        <i
+          *ngIf="dish.isVegan"
+          class="bi bi-flower3 text-success dish-icon"
+        ></i>
+        <span class="text dish price">{{ dish.price }}</span> <br />
+        <span class="text dish ingredients">{{ dish.ingredients }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>

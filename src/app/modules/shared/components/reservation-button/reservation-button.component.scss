@@ -18,10 +18,24 @@
 }
 
 .btn-reservation-account {
+  line-height: 40px;
   width: 150px;
   font-size: 16px;
   background-color: #f3f2f1;
   margin: 10px 0;
+}
+
+.btn-reservation-contact {
+  width: 150px;
+  font-size: 16px;
+  line-height: 40px;
+  color: white;
+  background-color: #4e5140;
+}
+
+.btn-reservation-contact:hover {
+  background-color: #f3f2f1;
+  color: #4e5140;
 }
 
 .btn-reservation-home:hover {
