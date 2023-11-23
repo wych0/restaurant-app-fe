@@ -11,6 +11,8 @@ export interface Reservation {
   personalData: PersonalData;
   peopleNumber: number;
   userId?: string;
+  isCancellable: boolean;
+  canComplete: boolean;
 }
 
 export interface UserReservation {
@@ -31,6 +33,7 @@ export interface ReservationDetails {
   additionalOptions: AdditionalOptions;
   requests: string;
   cancellationReason?: string;
+  isCancellable: boolean;
 }
 
 export interface GetReservationsResponse {
@@ -61,7 +64,10 @@ export interface CreateReservationResponse {
   personalData: PersonalData;
 }
 
-export type CreateReservation = Omit<Reservation, 'id' | 'table' | 'status'>;
+export type CreateReservation = Omit<
+  Reservation,
+  'id' | 'table' | 'status' | 'isCancellable' | 'canComplete'
+>;
 
 export interface AvailableHoursParams {
   date: Date;

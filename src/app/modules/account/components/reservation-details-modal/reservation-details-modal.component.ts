@@ -93,29 +93,4 @@ export class ReservationDetailsModalComponent implements AfterViewInit {
       },
     });
   }
-
-  isCancellable(): boolean {
-    if (this.reservationDetails) {
-      if (
-        this.reservationDetails.status === 'CANCELLED' ||
-        this.reservationDetails.status === 'COMPLETED'
-      ) {
-        return false;
-      }
-      const maxDate = new Date();
-      maxDate.setHours(maxDate.getHours() + 12);
-      const reservationDate = new Date(this.reservationDetails.date);
-      const resevationHour = parseInt(
-        this.reservationDetails.hour.split(':')[0]
-      );
-      reservationDate.setHours(reservationDate.getHours() + resevationHour);
-
-      if (reservationDate < maxDate) {
-        return false;
-      }
-
-      return true;
-    }
-    return false;
-  }
 }

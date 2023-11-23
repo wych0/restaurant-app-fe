@@ -121,20 +121,6 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  isCancellable(status: string): boolean {
-    if (status === 'CANCELLED' || status === 'COMPLETED') {
-      return false;
-    }
-    return true;
-  }
-
-  canComplete(status: string): boolean {
-    if (status != 'CONFIRMED') {
-      return false;
-    }
-    return true;
-  }
-
   applyFilter(filterBy: string): void {
     if (filterBy === 'todays') {
       this.todaysFilter = !this.todaysFilter;
