@@ -15,6 +15,11 @@ export interface Reservation {
   canComplete: boolean;
 }
 
+export interface ManagerReservation extends Reservation {
+  completedBy?: string;
+  cancelledBy?: string;
+}
+
 export interface UserReservation {
   id: string;
   date: Date;

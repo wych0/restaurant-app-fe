@@ -45,6 +45,10 @@ export class ReservationService {
     return this.http.post<MessageResponse>(`${this.apiUrl}/cancel/${id}`, {});
   }
 
+  complete(id: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.apiUrl}/complete/${id}`, {});
+  }
+
   getAll(
     paramsObject: GetReservationsParams
   ): Observable<GetReservationsResponse> {

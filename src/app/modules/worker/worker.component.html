@@ -1,11 +1,15 @@
 <div *ngIf="user" class="d-flex h-100">
   <div class="container-nav d-flex flex-column bg-primary p-3 shadow">
-    <div class="nav nav-pills flex-column" id="pills-tab" role="tablist">
-      <h3 class="text-white">
-        <span class="text-capitalize">{{ user.role.toLowerCase() }}</span>
-        dashboard
-      </h3>
-      <hr />
+    <h3 class="text-white">
+      <span class="text-capitalize">{{ user.role.toLowerCase() }}</span>
+      dashboard
+    </h3>
+    <hr />
+    <div
+      class="nav nav-pills flex-column align-items-center"
+      id="pills-tab"
+      role="tablist"
+    >
       <button
         class="nav-link text-white active"
         id="pills-reservations-tab"
@@ -35,6 +39,16 @@
         Menu
       </button>
     </div>
+    <hr class="mt-auto" />
+    <button
+      class="nav-link text-white mx-auto"
+      type="button"
+      role="tab"
+      (click)="logout()"
+    >
+      <i class="bi bi-door-closed"></i>
+      Logout
+    </button>
   </div>
   <div class="content tab-content px-4 pt-3" id="pills-tabContent">
     <div

@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotifierService } from 'angular-notifier';
 import { format } from 'date-fns';
 import {
   Subscription,
@@ -71,8 +72,12 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
   todaysDate: string = format(new Date(), 'dd.MM.yyyy');
   todaysFilter: boolean = false;
   term: string | undefined;
+  completingId: string | undefined;
 
-  constructor(private reservationService: ReservationService) {}
+  constructor(
+    private reservationService: ReservationService,
+    private notifierService: NotifierService
+  ) {}
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -141,6 +146,28 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
     return Object.entries(additionalOptions)
       .filter(([key, value]) => value === true)
       .map(([key]) => key);
+  }
+
+  setCompletingId(id: string): void {
+    this.completingId = id;
+  }
+
+  completeReservation(): void {
+    if (this.completingId) {
+      this.reservationService.complete(this.completingId).subscribe({
+        next: () => {
+          this.notifierService.notify('success', 'Reservation completed!');
+          this.getReservations();
+        },
+        error: () => {
+          this.notifierService.notify(
+            'error',
+            'Something went wrong, please try again.'
+          );
+          this.getReservations();
+        },
+      });
+    }
   }
 
   ngOnDestroy(): void {

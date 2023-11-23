@@ -109,7 +109,13 @@
           &nbsp;
         </th>
         <td mat-cell *matCellDef="let element">
-          <button class="btn btn-success" [disabled]="!element.canComplete">
+          <button
+            class="btn btn-success"
+            [disabled]="!element.canComplete"
+            (click)="setCompletingId(element.id)"
+            data-bs-toggle="modal"
+            data-bs-target="#completeModal"
+          >
             Complete
           </button>
         </td>
@@ -208,4 +214,57 @@
     [pageSize]="10"
     [pageSizeOptions]="[5, 10]"
   ></mat-paginator>
+</div>
+
+<div
+  class="modal fade"
+  id="completeModal"
+  tabindex="-1"
+  aria-labelledby="completeModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="completeModalLabel">
+          Complete reservation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <figure>
+          <blockquote class="blockquote">
+            <h6>Are you sure you want complete this reservation?</h6>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            You can't undo this action.
+          </figcaption>
+        </figure>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-dismiss="modal"
+        >
+          No, Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="completeReservation()"
+        >
+          Yes, Complete
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -3,10 +3,12 @@
 }
 
 .nav-link {
+  width: 175px;
   color: white;
   border-radius: 0;
   font-weight: 500;
-  font-size: 1.3rem;
+  font-size: 1rem;
+  height: 40px;
 }
 
 .nav-link.active,

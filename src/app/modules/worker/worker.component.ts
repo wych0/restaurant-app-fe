@@ -5,6 +5,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { selectAuthUser } from '../auth/store/auth.selectors';
 import { User } from '../core/models/user.model';
 import { ReservationsComponent } from './components/reservations/reservations.component';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-worker',
@@ -29,6 +30,10 @@ export class WorkerComponent implements OnInit, OnDestroy {
     if (dataType === 'reservations') {
       this.reservationsComponent.getReservations();
     }
+  }
+
+  logout(): void {
+    this.store.dispatch(AuthActions.logout());
   }
 
   ngOnDestroy(): void {
