@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import { ReservationDetailsModalComponent } from '../reservation-details-modal/reservation-details-modal.component';
 import { UserService } from 'src/app/modules/core/services/user.service';
 import { toDateWithHour } from 'src/app/modules/shared/tools/date-formatter';
+import { badgeClasses } from 'src/app/modules/shared/tools/badge-classes';
 
 @Component({
   selector: 'app-reservations',
@@ -106,6 +107,10 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
 
   formatDate(date: string, hour: string): string {
     return toDateWithHour(date, hour);
+  }
+
+  setBadgeClass(status: string): string {
+    return badgeClasses(status);
   }
 
   ngOnDestroy(): void {

@@ -1,9 +1,9 @@
 <div *ngIf="user" class="d-flex h-100">
   <div class="container-nav d-flex flex-column bg-primary p-3 shadow">
-    <h3 class="text-white">
+    <h4 class="text-white">
       <span class="text-capitalize">{{ user.role.toLowerCase() }}</span>
       dashboard
-    </h3>
+    </h4>
     <hr />
     <div
       class="nav nav-pills flex-column align-items-center"
@@ -19,7 +19,7 @@
         role="tab"
         aria-controls="pills-reservations"
         aria-selected="true"
-        (click)="fetchData('reservations')"
+        (click)="changeTable('reservations')"
       >
         <i class="bi bi-calendar-day"></i>
         Reservations
@@ -33,7 +33,7 @@
         role="tab"
         aria-controls="pills-dishes"
         aria-selected="false"
-        (click)="fetchData('dishes')"
+        (click)="changeTable('dishes')"
       >
         <i class="bi bi-clipboard2"></i>
         Menu
@@ -48,7 +48,7 @@
         role="tab"
         aria-controls="pills-workers"
         aria-selected="false"
-        (click)="fetchData('workers')"
+        (click)="changeTable('workers')"
       >
         <i class="bi bi-person"></i>
         Workers
@@ -74,7 +74,7 @@
       tabindex="0"
     >
       <h3>Reservations</h3>
-      <app-reservations></app-reservations>
+      <app-reservations *ngIf="tableType === 'reservations'"></app-reservations>
     </div>
     <div
       class="tab-pane fade show"
@@ -84,7 +84,7 @@
       tabindex="0"
     >
       <h3>Dishes</h3>
-      <app-dishes></app-dishes>
+      <app-dishes *ngIf="tableType === 'dishes'"></app-dishes>
     </div>
     <div
       class="tab-pane fade show"
@@ -94,7 +94,7 @@
       tabindex="0"
     >
       <h3>Workers</h3>
-      <app-workers></app-workers>
+      <app-workers *ngIf="tableType === 'workers'"></app-workers>
     </div>
   </div>
 </div>

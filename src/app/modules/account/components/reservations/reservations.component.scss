@@ -79,8 +79,10 @@ table {
   border: none;
 }
 
-select option[disabled]:first-child {
-  display: none;
+.badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 10px 10px;
 }
 
 @media (max-width: 991.9px) {

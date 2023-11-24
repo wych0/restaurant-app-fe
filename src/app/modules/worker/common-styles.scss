@@ -1,6 +1,8 @@
-.container-reservations {
+.container-reservations,
+.container-dishes {
   margin-top: 24px;
   position: relative;
+  min-width: 1100px;
 }
 
 .container-table {
@@ -74,6 +76,7 @@ tr.detail-row {
   font-size: 0.8rem;
   font-weight: 500;
   padding: 10px 10px;
+  max-width: 100px;
 }
 
 th {
@@ -96,4 +99,8 @@ h3 {
   background-color: #6c757d;
   border-color: #6c757d;
   color: #d6d6d6;
+}
+
+.form-check {
+  min-height: 38px;
 }

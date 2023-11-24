@@ -1,1 +1,200 @@
-<p>dishes works!</p>
+<div class="container-dishes mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="d-flex align-items-center pb-2 pt-3">
+    <div class="form-field filter-field">
+      <label class="form-label" for="filterInput">Filter dishes </label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Filter by name "
+        id="filterInput"
+        [formControl]="nameFilter"
+      />
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="typeSelect">Type</label>
+      <div class="input-group">
+        <label class="input-group-text" for="typeSelect"
+          ><i class="bi bi-funnel-fill text-primary"></i
+        ></label>
+        <select
+          class="form-select"
+          id="typeSelect"
+          aria-label="Filter type select"
+          placeholder="Filter by type"
+          [(ngModel)]="typeFilter"
+          (ngModelChange)="applyFilter('type')"
+        >
+          <option value="">All types</option>
+          <option value="pizza">Pizza</option>
+          <option value="appetizer">Appetizers</option>
+          <option value="pasta">Pasta</option>
+          <option value="soup">Soups</option>
+          <option value="dessert">Desserts</option>
+          <option value="drink">Drinks</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-field">
+      <label class="form-label" for="displayedCheckbox">Displayed</label>
+      <div class="form-check form-switch d-flex align-items-center">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="displayedCheckbox"
+          (click)="applyFilter('displayed')"
+        />
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-auto">
+      <i class="bi bi-plus-lg"></i> Add dish
+    </button>
+  </div>
+  <div class="container-table">
+    <table mat-table [dataSource]="data" multiTemplateDataRows matSort>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.id }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.price }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="text-capitalize">{{ element.type }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="displayed">
+        <th mat-header-cell *matHeaderCellDef>Displayed</th>
+        <td mat-cell *matCellDef="let element">
+          <span
+            class="badge d-flex align-items-center justify-content-center text-uppercase"
+            [ngClass]="setBadgeClass(element.isDisplayed)"
+          >
+            {{ element.isDisplayed }}</span
+          >
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button class="btn btn-primary">Edit</button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button class="btn btn-danger">Delete</button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            aria-label="expand row"
+            (click)="
+              expandedElement = expandedElement === element ? null : element;
+              $event.stopPropagation()
+            "
+          >
+            <mat-icon *ngIf="expandedElement !== element"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-icon *ngIf="expandedElement === element"
+              >keyboard_arrow_up</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="columnsToDisplay.length"
+        >
+          <div
+            class="element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <div>
+              <h6 class="mb-0">Ingredients:</h6>
+              <p>{{ element.ingredients }}</p>
+            </div>
+            <div>
+              <h6 class="mb-0">Spicy:</h6>
+              <p>{{ element.isSpicy }}</p>
+            </div>
+            <div>
+              <h6 class="mb-0">Vegan:</h6>
+              <p>{{ element.isVegan }}</p>
+            </div>
+
+            <div *ngIf="element.createdBy">
+              <h6 class="mb-0">Created by:</h6>
+              <p>{{ element.createdBy }}</p>
+            </div>
+            <div *ngIf="element.editedBy">
+              <h6 class="mb-0">Edited by:</h6>
+              <p>{{ element.editedBy }}</p>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplay"
+        class="element-row"
+        [class.expanded-row]="expandedElement === element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="detail-row"
+      ></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          *ngIf="!isLoadingResults"
+          class="mat-cell p-2 text-primary"
+          colspan="4"
+        >
+          <h6>Couldn't find any dishes</h6>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator
+    [length]="resultsLength"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10]"
+  ></mat-paginator>
+</div>

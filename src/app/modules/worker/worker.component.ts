@@ -6,6 +6,7 @@ import { selectAuthUser } from '../auth/store/auth.selectors';
 import { User } from '../core/models/user.model';
 import { ReservationsComponent } from './components/reservations/reservations.component';
 import * as AuthActions from '../auth/store/auth.actions';
+import { DishesComponent } from './components/dishes/dishes.component';
 
 @Component({
   selector: 'app-worker',
@@ -16,7 +17,10 @@ export class WorkerComponent implements OnInit, OnDestroy {
   private sub = new Subscription();
   @ViewChild(ReservationsComponent)
   reservationsComponent!: ReservationsComponent;
+  @ViewChild(DishesComponent)
+  dishesComponent!: DishesComponent;
   user: User | null = null;
+  tableType: string = 'reservations';
 
   constructor(private store: Store<AppState>) {}
 
@@ -26,10 +30,8 @@ export class WorkerComponent implements OnInit, OnDestroy {
     });
   }
 
-  fetchData(dataType: string): void {
-    if (dataType === 'reservations') {
-      this.reservationsComponent.getReservations();
-    }
+  changeTable(type: string): void {
+    this.tableType = type;
   }
 
   logout(): void {
