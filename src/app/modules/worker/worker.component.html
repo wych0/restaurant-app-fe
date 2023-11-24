@@ -38,6 +38,21 @@
         <i class="bi bi-clipboard2"></i>
         Menu
       </button>
+      <button
+        *ngIf="user.role === 'MANAGER'"
+        class="nav-link text-white"
+        id="pills-workers-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-workers"
+        type="button"
+        role="tab"
+        aria-controls="pills-workers"
+        aria-selected="false"
+        (click)="fetchData('workers')"
+      >
+        <i class="bi bi-person"></i>
+        Workers
+      </button>
     </div>
     <hr class="mt-auto" />
     <button
@@ -70,6 +85,16 @@
     >
       <h3>Dishes</h3>
       <app-dishes></app-dishes>
+    </div>
+    <div
+      class="tab-pane fade show"
+      id="pills-workers"
+      role="tabpanel"
+      aria-labelledby="pills-workers"
+      tabindex="0"
+    >
+      <h3>Workers</h3>
+      <app-workers></app-workers>
     </div>
   </div>
 </div>

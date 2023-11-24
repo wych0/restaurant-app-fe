@@ -112,9 +112,9 @@
           <button
             class="btn btn-success"
             [disabled]="!element.canComplete"
-            (click)="setCompletingId(element.id)"
+            (click)="setAction('complete', element.id)"
             data-bs-toggle="modal"
-            data-bs-target="#completeModal"
+            data-bs-target="#confirmActionModal"
           >
             Complete
           </button>
@@ -125,7 +125,13 @@
           &nbsp;
         </th>
         <td mat-cell *matCellDef="let element">
-          <button class="btn btn-danger" [disabled]="!element.isCancellable">
+          <button
+            class="btn btn-danger"
+            [disabled]="!element.isCancellable"
+            (click)="setCancelledReservation(element)"
+            data-bs-toggle="modal"
+            data-bs-target="#cancelModal"
+          >
             Cancel
           </button>
         </td>
@@ -191,6 +197,14 @@
               <h6 class="mb-0">Special requests:</h6>
               <p>{{ element.requests }}</p>
             </div>
+            <div *ngIf="element.completedBy">
+              <h6 class="mb-0">Completed by:</h6>
+              <p>{{ element.completedBy }}</p>
+            </div>
+            <div *ngIf="element.cancelledBy">
+              <h6 class="mb-0">Cancelled by:</h6>
+              <p>{{ element.cancelledBy }}</p>
+            </div>
           </div>
         </td>
       </ng-container>
@@ -207,6 +221,16 @@
         *matRowDef="let row; columns: ['expandedDetail']"
         class="detail-row"
       ></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          *ngIf="!isLoadingResults"
+          class="mat-cell p-2 text-primary"
+          colspan="4"
+        >
+          <h6>Couldn't find any reservations</h6>
+        </td>
+      </tr>
     </table>
   </div>
   <mat-paginator
@@ -218,9 +242,9 @@
 
 <div
   class="modal fade"
-  id="completeModal"
+  id="cancelModal"
   tabindex="-1"
-  aria-labelledby="completeModalLabel"
+  aria-labelledby="cancelModalLabel"
   aria-hidden="true"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -228,20 +252,131 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-primary">
-        <h1 class="modal-title fs-5 text-white" id="completeModalLabel">
-          Complete reservation
+        <h1 class="modal-title fs-5 text-white" id="cancelModalLabel">
+          Cancel reservation
         </h1>
         <button
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="resetValues()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="cancelledReservation">
+          <h6>
+            Reservation: <span>{{ cancelledReservation.id }}</span>
+          </h6>
+          <h6>
+            Name:
+            <span class="text-capitalize"
+              >{{ cancelledReservation.personalData.firstName }}
+              {{ cancelledReservation.personalData.secondName }}</span
+            >
+          </h6>
+          <h6>
+            Date:
+            <span>
+              {{
+                formatDate(
+                  cancelledReservation.date.toString(),
+                  cancelledReservation.hour
+                )
+              }}</span
+            >
+          </h6>
+          <h6>
+            Contact:
+            <span>
+              {{ cancelledReservation.personalData.email }},
+              {{ cancelledReservation.personalData.phone }}</span
+            >
+          </h6>
+
+          <form
+            [formGroup]="cancelForm"
+            class="d-flex flex-wrap"
+            id="reservationForm"
+          >
+            <div class="form-field p-0">
+              <label class="form-label" for="reasonSelect"
+                >To cancel reservation please select cancellation reason</label
+              >
+              <div class="input-group reason-select">
+                <select
+                  class="form-select"
+                  id="reasonSelect"
+                  aria-label="Cancellation reason"
+                  placeholder="Cancellation reason"
+                  formControlName="reason"
+                >
+                  <option value="">Select reason</option>
+                  <option value="The customer did not appear.">
+                    The customer did not appear
+                  </option>
+                  <option value="Cancelled on customer's request.">
+                    Cancelled on customer's request
+                  </option>
+                  <option value="Unexpected circumstances.">
+                    Unexpected circumstances
+                  </option>
+                  <option value="Technical issues.">Technical issues</option>
+                  <option value="Kitchen breakdown.">Kitchen breakdown</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              form="cancelForm"
+              class="btn btn-danger mt-2"
+              data-bs-dismiss="modal"
+              data-bs-toggle="modal"
+              data-bs-target="#confirmActionModal"
+              [disabled]="cancelForm.controls.reason.value === ''"
+            >
+              Cancel
+            </button>
+          </form>
+        </ng-container>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="confirmActionModal"
+  tabindex="-1"
+  aria-labelledby="confrimActionModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="confrimActionModalLabel">
+          <span class="text-capitalize">{{ action }}</span> reservation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          data-bs-toggle="modal"
+          data-bs-target="#cancelModal"
+          aria-label="Close"
         ></button>
       </div>
       <div class="modal-body">
         <figure>
           <blockquote class="blockquote">
-            <h6>Are you sure you want complete this reservation?</h6>
+            <h6>
+              Are you sure you want {{ action }}
+              reservation?
+            </h6>
           </blockquote>
           <figcaption class="blockquote-footer">
             You can't undo this action.
@@ -253,6 +388,8 @@
           type="button"
           class="btn btn-outline-primary"
           data-bs-dismiss="modal"
+          data-bs-toggle="modal"
+          data-bs-target="#cancelModal"
         >
           No, Close
         </button>
@@ -260,9 +397,9 @@
           type="button"
           class="btn btn-primary"
           data-bs-dismiss="modal"
-          (click)="completeReservation()"
+          (click)="updateReservation()"
         >
-          Yes, Complete
+          Yes, {{ action }}
         </button>
       </div>
     </div>

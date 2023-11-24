@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,12 +21,15 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
+import { CancelReservationForm } from 'src/app/modules/core/models/forms.model';
 import {
   AdditionalOptions,
+  CancelReservation,
   GetReservationsParams,
   Reservation,
 } from 'src/app/modules/core/models/reservation.model';
 import { Size } from 'src/app/modules/core/models/spinner.model';
+import { FormService } from 'src/app/modules/core/services/form-service';
 import { ReservationService } from 'src/app/modules/core/services/reservation.service';
 import { badgeClasses } from 'src/app/modules/shared/tools/badge-classes';
 import { toDateWithHour } from 'src/app/modules/shared/tools/date-formatter';
@@ -64,6 +67,8 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
   data!: MatTableDataSource<Reservation>;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  cancelForm: FormGroup<CancelReservationForm> =
+    this.formService.initCancelReservationForm();
   resultsLength: number = 0;
   spinnerSize: Size = Size.BIG;
   isLoadingResults: boolean = true;
@@ -72,11 +77,14 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
   todaysDate: string = format(new Date(), 'dd.MM.yyyy');
   todaysFilter: boolean = false;
   term: string | undefined;
-  completingId: string | undefined;
+  actionReservationId: string | undefined;
+  action: string | undefined;
+  cancelledReservation!: Reservation;
 
   constructor(
     private reservationService: ReservationService,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private formService: FormService
   ) {}
 
   ngAfterViewInit() {
@@ -148,26 +156,59 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
       .map(([key]) => key);
   }
 
-  setCompletingId(id: string): void {
-    this.completingId = id;
+  setAction(action: string, id: string): void {
+    this.action = action;
+    this.actionReservationId = id;
   }
 
-  completeReservation(): void {
-    if (this.completingId) {
-      this.reservationService.complete(this.completingId).subscribe({
-        next: () => {
-          this.notifierService.notify('success', 'Reservation completed!');
-          this.getReservations();
-        },
-        error: () => {
-          this.notifierService.notify(
-            'error',
-            'Something went wrong, please try again.'
-          );
-          this.getReservations();
-        },
-      });
+  setCancelledReservation(reservation: Reservation): void {
+    this.cancelledReservation = reservation;
+    this.setAction('cancel', reservation.id);
+  }
+
+  updateReservation(): void {
+    if (this.actionReservationId) {
+      if (this.action === 'complete') {
+        this.reservationService.complete(this.actionReservationId).subscribe({
+          next: () => {
+            this.notifierService.notify('success', 'Reservation completed!');
+            this.getReservations();
+          },
+          error: () => {
+            this.notifierService.notify(
+              'error',
+              'Something went wrong, please try again.'
+            );
+            this.getReservations();
+          },
+        });
+      }
+      if (this.action === 'cancel') {
+        const formData = this.cancelForm.getRawValue();
+        const cancelReservation: CancelReservation = {
+          reason: formData.reason,
+        };
+        this.reservationService
+          .cancel(this.actionReservationId, cancelReservation)
+          .subscribe({
+            next: () => {
+              this.notifierService.notify('success', 'Reservation cancelled!');
+              this.getReservations();
+            },
+            error: () => {
+              this.notifierService.notify(
+                'error',
+                'Something went wrong, please try again.'
+              );
+              this.getReservations();
+            },
+          });
+      }
     }
+  }
+
+  resetValues(): void {
+    this.cancelForm.reset();
   }
 
   ngOnDestroy(): void {

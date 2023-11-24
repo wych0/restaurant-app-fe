@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   AvailableHoursParams,
+  CancelReservation,
   CreateReservation,
   CreateReservationResponse,
   GetReservationsParams,
@@ -41,8 +42,8 @@ export class ReservationService {
     );
   }
 
-  cancel(id: string): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(`${this.apiUrl}/cancel/${id}`, {});
+  cancel(id: string, body?: CancelReservation): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.apiUrl}/cancel/${id}`, body);
   }
 
   complete(id: string): Observable<MessageResponse> {

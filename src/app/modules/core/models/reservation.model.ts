@@ -13,9 +13,6 @@ export interface Reservation {
   userId?: string;
   isCancellable: boolean;
   canComplete: boolean;
-}
-
-export interface ManagerReservation extends Reservation {
   completedBy?: string;
   cancelledBy?: string;
 }
@@ -73,6 +70,10 @@ export type CreateReservation = Omit<
   Reservation,
   'id' | 'table' | 'status' | 'isCancellable' | 'canComplete'
 >;
+
+export interface CancelReservation {
+  reason: string;
+}
 
 export interface AvailableHoursParams {
   date: Date;

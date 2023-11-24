@@ -31,4 +31,8 @@ export interface ForgotPasswordForm {
   email: FormControl<string>;
 }
 
+export interface CancelReservationForm {
+  reason: FormControl<string>;
+}
+
 export type RegisterForm = LoginForm;

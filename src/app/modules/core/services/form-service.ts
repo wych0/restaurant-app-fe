@@ -7,6 +7,7 @@ import {
   ReservationForm,
   ForgotPasswordForm,
   ChangePasswordForm,
+  CancelReservationForm,
 } from '../models/forms.model';
 import { repeatPasswordValidator } from '../../shared/validators/password.validator';
 
@@ -84,6 +85,14 @@ export class FormService {
       }),
       password: new FormControl('', {
         validators: [Validators.required, Validators.minLength(8)],
+        nonNullable: true,
+      }),
+    });
+  }
+
+  initCancelReservationForm(): FormGroup<CancelReservationForm> {
+    return new FormGroup({
+      reason: new FormControl('', {
         nonNullable: true,
       }),
     });
