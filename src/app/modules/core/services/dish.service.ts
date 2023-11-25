@@ -2,7 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { GetDishesParams, GetDishesResponse } from '../models/dish.model';
+import {
+  CreateDish,
+  CreateDishResponse,
+  EditDish,
+  GetDishesParams,
+  GetDishesResponse,
+  MessageResponse,
+} from '../models/dish.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,5 +43,17 @@ export class DishService {
     return this.http.get<GetDishesResponse>(`${this.apiUrl}`, {
       params,
     });
+  }
+
+  create(body: CreateDish): Observable<CreateDishResponse> {
+    return this.http.post<CreateDishResponse>(`${this.apiUrl}`, body);
+  }
+
+  update(body: EditDish, id: string): Observable<MessageResponse> {
+    return this.http.put<MessageResponse>(`${this.apiUrl}/${id}`, body);
+  }
+
+  delete(id: string): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.apiUrl}/${id}`);
   }
 }

@@ -8,8 +8,10 @@ import {
   ForgotPasswordForm,
   ChangePasswordForm,
   CancelReservationForm,
+  DishForm,
 } from '../models/forms.model';
 import { repeatPasswordValidator } from '../../shared/validators/password.validator';
+import { priveValidator } from '../../shared/validators/price.validator';
 
 @Injectable({
   providedIn: 'root',
@@ -126,6 +128,30 @@ export class FormService {
     });
   }
 
+  initDishForm(): FormGroup<DishForm> {
+    return new FormGroup({
+      name: new FormControl('', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      ingredients: new FormControl('', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      price: new FormControl(0, {
+        validators: [Validators.required, priveValidator()],
+        nonNullable: true,
+      }),
+      type: new FormControl('', {
+        validators: Validators.required,
+        nonNullable: true,
+      }),
+      isSpicy: new FormControl(false, { nonNullable: true }),
+      isVegan: new FormControl(false, { nonNullable: true }),
+      isDisplayed: new FormControl(false, { nonNullable: true }),
+    });
+  }
+
   getErrorMessage(control: FormControl, name?: string) {
     if (control.hasError('required')) {
       return 'This field is required.';
@@ -141,6 +167,9 @@ export class FormService {
     }
     if (control.hasError('repeatPassword')) {
       return `Passwords are not the same.`;
+    }
+    if (control.hasError('invalidPrice')) {
+      return `Invalid price.`;
     }
     return;
   }

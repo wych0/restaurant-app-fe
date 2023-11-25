@@ -35,4 +35,14 @@ export interface CancelReservationForm {
   reason: FormControl<string>;
 }
 
+export interface DishForm {
+  name: FormControl<string>;
+  ingredients: FormControl<string>;
+  price: FormControl<number>;
+  type: FormControl<string>;
+  isSpicy: FormControl<boolean>;
+  isVegan: FormControl<boolean>;
+  isDisplayed: FormControl<boolean>;
+}
+
 export type RegisterForm = LoginForm;

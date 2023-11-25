@@ -51,8 +51,14 @@
       </div>
     </div>
 
-    <button class="btn btn-primary mt-auto">
-      <i class="bi bi-plus-lg"></i> Add dish
+    <button
+      class="btn btn-primary mt-auto"
+      data-bs-toggle="modal"
+      data-bs-target="#itemModal"
+      (click)="setAction('add')"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Add item
     </button>
   </div>
   <div class="container-table">
@@ -78,7 +84,7 @@
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
         <td mat-cell *matCellDef="let element">
-          <span class="text-capitalize">{{ element.type }}</span>
+          {{ element.type }}
         </td>
       </ng-container>
       <ng-container matColumnDef="displayed">
@@ -92,12 +98,20 @@
           >
         </td>
       </ng-container>
+
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">
           &nbsp;
         </th>
         <td mat-cell *matCellDef="let element">
-          <button class="btn btn-primary">Edit</button>
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#itemModal"
+            (click)="setAction('edit', element)"
+          >
+            Edit
+          </button>
         </td>
       </ng-container>
       <ng-container matColumnDef="delete">
@@ -105,7 +119,14 @@
           &nbsp;
         </th>
         <td mat-cell *matCellDef="let element">
-          <button class="btn btn-danger">Delete</button>
+          <button
+            class="btn btn-danger"
+            (click)="setAction('delete', element)"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmActionModal"
+          >
+            Delete
+          </button>
         </td>
       </ng-container>
       <ng-container matColumnDef="expand">
@@ -147,13 +168,18 @@
               <h6 class="mb-0">Ingredients:</h6>
               <p>{{ element.ingredients }}</p>
             </div>
-            <div>
-              <h6 class="mb-0">Spicy:</h6>
-              <p>{{ element.isSpicy }}</p>
-            </div>
-            <div>
-              <h6 class="mb-0">Vegan:</h6>
-              <p>{{ element.isVegan }}</p>
+            <div *ngIf="element.type !== 'drink' && element.type !== 'dessert'">
+              <h6 class="mb-0">Category</h6>
+              <p class="mb-0">
+                Spicy
+                <i *ngIf="element.isSpicy" class="bi bi-check-square-fill"></i>
+                <i *ngIf="!element.isSpicy" class="bi bi-x-square-fill"></i>
+              </p>
+              <p>
+                Vegan
+                <i *ngIf="element.isVegan" class="bi bi-check-square-fill"></i>
+                <i *ngIf="!element.isVegan" class="bi bi-x-square-fill"></i>
+              </p>
             </div>
 
             <div *ngIf="element.createdBy">
@@ -187,7 +213,7 @@
           class="mat-cell p-2 text-primary"
           colspan="4"
         >
-          <h6>Couldn't find any dishes</h6>
+          <h6>Couldn't find any items</h6>
         </td>
       </tr>
     </table>
@@ -197,4 +223,293 @@
     [pageSize]="10"
     [pageSizeOptions]="[5, 10]"
   ></mat-paginator>
+</div>
+
+<div
+  class="modal fade"
+  id="itemModal"
+  tabindex="-1"
+  aria-labelledby="itemModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="itemModalLabel">
+          <span class="text-capitalize">{{ action }}</span> menu item
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="!actionStatus">
+          <form
+            appFocusInvalidInput
+            [formGroup]="dishForm"
+            class="d-flex flex-wrap mx-auto"
+            id="dishForm"
+            (submit)="onSubmit()"
+          >
+            <div class="form-field type-select">
+              <label class="form-label" for="typeSelect">Type</label>
+              <div
+                class="input-group type-select"
+                [class.is-invalid]="checkControlInvalid(dishForm.controls.type)"
+              >
+                <select
+                  class="form-select"
+                  id="typeSelect"
+                  aria-label="Menu item type"
+                  placeholder="Menu item type"
+                  formControlName="type"
+                  [class.is-invalid]="
+                    checkControlInvalid(dishForm.controls.type)
+                  "
+                >
+                  <option value="">Select type</option>
+                  <option value="Pizza">Pizza</option>
+                  <option value="Appetizer">Appetizer</option>
+                  <option value="Pasta">Pasta</option>
+                  <option value="Soup">Soup</option>
+                  <option value="Dessert">Dessert</option>
+                  <option value="Drink">Drink</option>
+                </select>
+              </div>
+              <div
+                *ngIf="checkControlInvalid(dishForm.controls.type)"
+                class="text-danger"
+              >
+                <small> {{ getErrorMessage(dishForm.controls.type) }}</small>
+              </div>
+            </div>
+            <div class="form-field input-field">
+              <label class="form-label" for="nameInput">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="Enter item name"
+                id="nameInput"
+                [class.is-invalid]="checkControlInvalid(dishForm.controls.name)"
+              />
+              <div
+                *ngIf="checkControlInvalid(dishForm.controls.name)"
+                class="text-danger"
+              >
+                <small> {{ getErrorMessage(dishForm.controls.name) }}</small>
+              </div>
+            </div>
+            <div class="form-field input-field">
+              <label class="form-label" for="ingredientsInput"
+                >Ingredients</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ingredients"
+                placeholder="Enter item ingredients"
+                id="ingredientsInput"
+                [class.is-invalid]="
+                  checkControlInvalid(dishForm.controls.ingredients)
+                "
+              />
+              <div
+                *ngIf="checkControlInvalid(dishForm.controls.ingredients)"
+                class="text-danger"
+              >
+                <small>
+                  {{ getErrorMessage(dishForm.controls.ingredients) }}</small
+                >
+              </div>
+            </div>
+            <div class="form-field input-field">
+              <label class="form-label" for="priceInput">Price</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="price"
+                placeholder="Enter item price"
+                id="priceInput"
+                [class.is-invalid]="
+                  checkControlInvalid(dishForm.controls.price)
+                "
+              />
+              <div
+                *ngIf="checkControlInvalid(dishForm.controls.price)"
+                class="text-danger"
+              >
+                <small> {{ getErrorMessage(dishForm.controls.price) }}</small>
+              </div>
+            </div>
+            <ng-container
+              *ngIf="
+                dishForm.controls.type.value !== 'Dessert' &&
+                dishForm.controls.type.value !== 'Drink' &&
+                dishForm.controls.type.value !== ''
+              "
+            >
+              <div class="form-field check-field">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="isSpicyCheckBox"
+                    formControlName="isSpicy"
+                  />
+                  <label class="form-check-label" for="isSpicyCheckBox"
+                    >Spicy</label
+                  >
+                </div>
+              </div>
+              <div class="form-field check-field">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="isVeganCheckBox"
+                    formControlName="isVegan"
+                  />
+                  <label class="form-check-label" for="isVeganCheckBox"
+                    >Vegan</label
+                  >
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="action === 'edit'">
+              <div class="form-field check-field">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="isDisplayed"
+                    formControlName="isDisplayed"
+                  />
+                  <label class="form-check-label" for="isDisplayedCheckBox"
+                    >Displayed</label
+                  >
+                </div>
+              </div>
+            </ng-container>
+          </form>
+        </ng-container>
+        <ng-container *ngIf="actionStatus"
+          ><div
+            class="container info d-flex flex-wrap justify-content-center align-items-center"
+          >
+            <div
+              class="container info-status d-flex flex-wrap justify-content-center text-center mb-5"
+            >
+              <app-spinner [size]="spinnerSize" class="mb-4"></app-spinner>
+              <i
+                *ngIf="actionStatus === 'Success'"
+                class="bi bi-check-square-fill text-primary status"
+              ></i>
+              <i
+                *ngIf="actionStatus === 'Failed'"
+                class="bi bi-x-square-fill text-danger status"
+              ></i>
+              <h1 *ngIf="action === 'add'" class="info-status mb-0">
+                {{
+                  actionStatus === "Success"
+                    ? "Menu item created!"
+                    : actionStatus === "Loading"
+                    ? "Menu item creating!"
+                    : "Menu item creating failed!"
+                }}
+              </h1>
+              <h1 *ngIf="action === 'edit'" class="info-status mb-0">
+                {{
+                  actionStatus === "Success"
+                    ? "Menu item edited!"
+                    : actionStatus === "Loading"
+                    ? "Menu item editting!"
+                    : "Menu item editting failed!"
+                }}
+              </h1>
+            </div>
+          </div></ng-container
+        >
+      </div>
+      <div class="modal-footer">
+        <button
+          *ngIf="!actionStatus"
+          type="submit"
+          form="dishForm"
+          class="btn btn-primary text-capitalize"
+        >
+          {{ action }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="confirmActionModal"
+  tabindex="-1"
+  aria-labelledby="confrimActionModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="confrimActionModalLabel">
+          <span class="text-capitalize">{{ action }} </span>
+          <span *ngIf="actionDish" class="text-capitalize">{{
+            actionDish.type
+          }}</span>
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <figure>
+          <blockquote class="blockquote">
+            <h6>
+              Are you sure you want {{ action }}
+              <span *ngIf="actionDish" class="text-capitalize"
+                >{{ actionDish.name }} {{ actionDish.type }}</span
+              >?
+            </h6>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            You can't undo this action.
+          </figcaption>
+        </figure>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-dismiss="modal"
+        >
+          No, Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="deleteDish()"
+        >
+          Yes, {{ action }}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

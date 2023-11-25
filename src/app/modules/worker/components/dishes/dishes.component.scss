@@ -6,3 +6,29 @@
 .mat-column-edit {
   max-width: 80px;
 }
+
+.input-group.type-select {
+  width: 250px;
+}
+
+.form-field.type-select {
+  min-height: 88px;
+}
+
+.check-field {
+  width: 290px;
+}
+
+.spinner {
+  flex-basis: 100%;
+}
+
+.bi.status {
+  font-size: 5rem;
+  flex-basis: 100%;
+}
+
+form {
+  width: 290px;
+  box-sizing: border-box;
+}

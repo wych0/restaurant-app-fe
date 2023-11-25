@@ -60,6 +60,11 @@ tr.detail-row {
   box-shadow: 0 0 8px rgba(78, 81, 64, 0.8);
 }
 
+.input-group.is-invalid {
+  border-color: var(--bs-form-invalid-border-color);
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
 .input-group-text {
   background-color: white;
   padding: 0px 0px 0px 12px;

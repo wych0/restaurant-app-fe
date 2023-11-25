@@ -297,7 +297,7 @@
           <form
             [formGroup]="cancelForm"
             class="d-flex flex-wrap"
-            id="reservationForm"
+            id="cancelForm"
           >
             <div class="form-field p-0">
               <label class="form-label" for="reasonSelect"
@@ -365,9 +365,8 @@
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
-          data-bs-toggle="modal"
-          data-bs-target="#cancelModal"
           aria-label="Close"
+          (click)="resetValues()"
         ></button>
       </div>
       <div class="modal-body">
@@ -388,8 +387,7 @@
           type="button"
           class="btn btn-outline-primary"
           data-bs-dismiss="modal"
-          data-bs-toggle="modal"
-          data-bs-target="#cancelModal"
+          (click)="resetValues()"
         >
           No, Close
         </button>

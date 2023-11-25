@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,7 +20,13 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
-import { Dish, GetDishesParams } from 'src/app/modules/core/models/dish.model';
+import {
+  CreateDish,
+  Dish,
+  GetDishesParams,
+  EditDish,
+} from 'src/app/modules/core/models/dish.model';
+import { DishForm } from 'src/app/modules/core/models/forms.model';
 import { Size } from 'src/app/modules/core/models/spinner.model';
 import { DishService } from 'src/app/modules/core/services/dish.service';
 import { FormService } from 'src/app/modules/core/services/form-service';
@@ -58,6 +64,7 @@ export class DishesComponent implements AfterViewInit, OnDestroy {
   data!: MatTableDataSource<Dish>;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dishForm: FormGroup<DishForm> = this.formService.initDishForm();
   resultsLength: number = 0;
   spinnerSize: Size = Size.BIG;
   isLoadingResults: boolean = true;
@@ -65,6 +72,10 @@ export class DishesComponent implements AfterViewInit, OnDestroy {
   typeFilter: string = '';
   term: string | undefined;
   displayedFilter: boolean = false;
+  action: string | undefined;
+  actionDish: Dish | undefined;
+  submitted: boolean = false;
+  actionStatus: string | null = null;
 
   constructor(
     private dishService: DishService,
@@ -127,6 +138,114 @@ export class DishesComponent implements AfterViewInit, OnDestroy {
 
   setBadgeClass(isDisplayed: boolean): string {
     return badgeClasses(isDisplayed);
+  }
+
+  setAction(action: string, dish?: Dish): void {
+    this.resetValues();
+    this.action = action;
+    this.actionDish = dish;
+    if (action === 'edit' && dish) {
+      this.dishForm.controls.name.setValue(dish.name);
+      this.dishForm.controls.ingredients.setValue(dish.ingredients);
+      this.dishForm.controls.type.setValue(dish.type);
+      this.dishForm.controls.price.setValue(dish.price);
+      if (typeof dish.isSpicy != 'undefined') {
+        this.dishForm.controls.isSpicy.setValue(dish.isSpicy);
+      }
+      if (typeof dish.isVegan != 'undefined') {
+        this.dishForm.controls.isVegan.setValue(dish.isVegan);
+      }
+      if (typeof dish.isDisplayed != 'undefined') {
+        this.dishForm.controls.isDisplayed.setValue(dish.isDisplayed);
+      }
+    }
+  }
+
+  deleteDish(): void {
+    if (this.actionDish) {
+      if (this.action === 'delete') {
+        this.dishService.delete(this.actionDish.id).subscribe({
+          next: () => {
+            this.notifierService.notify(
+              'success',
+              `${this.actionDish!.type} ${this.actionDish!.name} deleted!`
+            );
+            this.getDishes();
+          },
+          error: () => {
+            this.notifierService.notify(
+              'error',
+              'Something went wrong, please try again.'
+            );
+            this.getDishes();
+          },
+        });
+      }
+    }
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.dishForm.valid) {
+      this.actionStatus = 'Loading';
+      const formData = this.dishForm.getRawValue();
+      const dish: CreateDish = {
+        name: formData.name,
+        ingredients: formData.ingredients,
+        price: formData.price,
+        type: formData.type,
+        isSpicy:
+          formData.type !== 'Dessert' && formData.type !== 'Drink'
+            ? formData.isSpicy
+            : undefined,
+        isVegan:
+          formData.type !== 'Dessert' && formData.type !== 'Drink'
+            ? formData.isVegan
+            : undefined,
+      };
+      if (this.action === 'add') {
+        this.dishService.create(dish).subscribe({
+          next: () => {
+            this.actionStatus = 'Success';
+            this.getDishes();
+          },
+          error: () => {
+            this.actionStatus = 'Failed';
+          },
+        });
+      }
+
+      if (this.action === 'edit' && this.actionDish) {
+        const editDish: EditDish = {
+          ...dish,
+          isDisplayed: formData.isDisplayed,
+        };
+        this.dishService.update(editDish, this.actionDish.id).subscribe({
+          next: () => {
+            this.actionStatus = 'Success';
+            this.getDishes();
+          },
+          error: () => {
+            this.actionStatus = 'Failed';
+          },
+        });
+      }
+    }
+  }
+
+  getErrorMessage(control: FormControl, name?: string) {
+    return this.formService.getErrorMessage(control, name);
+  }
+
+  checkControlInvalid(control: FormControl): boolean {
+    return this.formService.controlInvalid(control, this.submitted);
+  }
+
+  resetValues(): void {
+    this.dishForm.reset();
+    this.actionStatus = null;
+    this.submitted = false;
   }
 
   ngOnDestroy(): void {
