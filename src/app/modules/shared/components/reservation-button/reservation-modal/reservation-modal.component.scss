@@ -113,6 +113,14 @@ h1.info-status {
   flex-basis: 100%;
 }
 
+.footer-info {
+  width: 100%;
+}
+
+.footer-info-text {
+  font-weight: 400;
+}
+
 @media (max-width: 991.9px) {
   .form-field {
     width: 600px;

@@ -223,12 +223,20 @@
       ></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td
-          *ngIf="!isLoadingResults"
-          class="mat-cell p-2 text-primary"
-          colspan="4"
-        >
-          <h6>Couldn't find any reservations</h6>
+        <td *ngIf="!isLoadingResults" class="mat-cell p-2" colspan="4">
+          <h5 *ngIf="!nameFilter.value && !statusFilter && !todaysFilter">
+            No reservations to display.
+          </h5>
+          <h5 *ngIf="nameFilter.value || statusFilter || todaysFilter">
+            Reservations with following filters not found:
+          </h5>
+          <h6 class="mb-0" *ngIf="nameFilter.value">
+            - Name: {{ nameFilter.value }}
+          </h6>
+          <h6 class="mb-0" *ngIf="statusFilter">
+            - Status: {{ statusFilter }}
+          </h6>
+          <h6 class="mb-0" *ngIf="todaysFilter">- Today's</h6>
         </td>
       </tr>
     </table>

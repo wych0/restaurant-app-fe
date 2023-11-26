@@ -55,12 +55,14 @@
         class="element-row"
       ></tr>
       <tr class="mat-row" *matNoDataRow>
-        <td
-          *ngIf="!isLoadingResults"
-          class="mat-cell p-2 text-primary"
-          colspan="4"
-        >
-          <h6>Couldn't find any workers</h6>
+        <td *ngIf="!isLoadingResults" class="mat-cell p-2" colspan="4">
+          <h5 *ngIf="!emailFilter.value">No workers to display.</h5>
+          <h5 *ngIf="emailFilter.value">
+            Reservations with following filters not found:
+          </h5>
+          <h6 class="mb-0" *ngIf="emailFilter.value">
+            - Email: {{ emailFilter.value }}
+          </h6>
         </td>
       </tr>
     </table>

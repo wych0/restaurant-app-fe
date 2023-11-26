@@ -4,7 +4,7 @@
   </div>
   <div class="d-flex align-items-center pb-2 pt-3">
     <div class="form-field filter-field">
-      <label class="form-label" for="filterInput">Filter dishes </label>
+      <label class="form-label" for="filterInput">Filter menu items</label>
       <input
         type="text"
         class="form-control"
@@ -202,12 +202,18 @@
       ></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td
-          *ngIf="!isLoadingResults"
-          class="mat-cell p-2 text-primary"
-          colspan="4"
-        >
-          <h6>Couldn't find any items</h6>
+        <td *ngIf="!isLoadingResults" class="mat-cell p-2" colspan="4">
+          <h5 *ngIf="!nameFilter.value && !typeFilter && !displayedFilter">
+            No items to display.
+          </h5>
+          <h5 *ngIf="nameFilter.value || typeFilter || displayedFilter">
+            Items with following filters not found:
+          </h5>
+          <h6 class="mb-0" *ngIf="nameFilter.value">
+            - Name: {{ nameFilter.value }}
+          </h6>
+          <h6 class="mb-0" *ngIf="typeFilter">- Type: {{ typeFilter }}</h6>
+          <h6 class="mb-0" *ngIf="displayedFilter">- Displayed</h6>
         </td>
       </tr>
     </table>

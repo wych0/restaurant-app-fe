@@ -53,6 +53,8 @@
                   <option value="2">Two People</option>
                   <option value="3">Three People</option>
                   <option value="4">Four People</option>
+                  <option value="5">Five People</option>
+                  <option value="6">Six people</option>
                 </select>
               </div>
               <ng-container *ngIf="!selectedDate">
@@ -355,6 +357,13 @@
       </div>
 
       <div class="modal-footer">
+        <div *ngIf="!selectedHour" class="footer-info text-center">
+          <h6 class="footer-info-text">
+            More than 6 people group or private event?
+            <a href="/contact">Contact us</a>
+          </h6>
+        </div>
+
         <button
           *ngIf="
             selectedHour && (creatingStatus === 'Failed' || !creatingStatus)
