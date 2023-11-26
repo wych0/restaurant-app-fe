@@ -89,62 +89,87 @@
       </button>
     </li>
   </ul>
+
   <div>
     <div class="tab-content" id="pills-tabContent">
-      <div
-        class="tab-pane fade show active"
-        id="pills-appetizers"
-        role="tabpanel"
-        aria-labelledby="pills-appetizers-tab"
-        tabindex="0"
-      >
-        <app-dishes [type]="dishTypes.APPETIZERS"></app-dishes>
+      <div class="d-flex justify-content-center">
+        <app-spinner [size]="spinnerSize"></app-spinner>
       </div>
-      <div
-        class="tab-pane fade"
-        id="pills-pizza"
-        role="tabpanel"
-        aria-labelledby="pills-pizza-tab"
-        tabindex="0"
-      >
-        <app-dishes [type]="dishTypes.PIZZA"></app-dishes>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-soaps"
-        role="tabpanel"
-        aria-labelledby="pills-soaps-tab"
-        tabindex="0"
-      >
-        <app-dishes [type]="dishTypes.SOUPS"></app-dishes>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-pasta"
-        role="tabpanel"
-        aria-labelledby="pills-pasta-tab"
-        tabindex="0"
-      >
-        <app-dishes [type]="dishTypes.PASTA"></app-dishes>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-desserts"
-        role="tabpanel"
-        aria-labelledby="pills-desserts-tab"
-        tabindex="0"
-      >
-        <app-dishes [type]="dishTypes.DESSERTS"></app-dishes>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-drinks"
-        role="tabpanel"
-        aria-labelledby="pills-drinks-tab"
-        tabindex="0"
-      >
-        <app-dishes [type]="dishTypes.DRINKS"></app-dishes>
-      </div>
+
+      <ng-container *ngIf="isLoaded">
+        <div
+          class="tab-pane fade show active"
+          id="pills-appetizers"
+          role="tabpanel"
+          aria-labelledby="pills-appetizers-tab"
+          tabindex="0"
+        >
+          <app-dishes
+            [type]="dishTypes.APPETIZERS"
+            [allDishes]="dishes"
+          ></app-dishes>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-pizza"
+          role="tabpanel"
+          aria-labelledby="pills-pizza-tab"
+          tabindex="0"
+        >
+          <app-dishes
+            [type]="dishTypes.PIZZA"
+            [allDishes]="dishes"
+          ></app-dishes>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-soaps"
+          role="tabpanel"
+          aria-labelledby="pills-soaps-tab"
+          tabindex="0"
+        >
+          <app-dishes
+            [type]="dishTypes.SOUPS"
+            [allDishes]="dishes"
+          ></app-dishes>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-pasta"
+          role="tabpanel"
+          aria-labelledby="pills-pasta-tab"
+          tabindex="0"
+        >
+          <app-dishes
+            [type]="dishTypes.PASTA"
+            [allDishes]="dishes"
+          ></app-dishes>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-desserts"
+          role="tabpanel"
+          aria-labelledby="pills-desserts-tab"
+          tabindex="0"
+        >
+          <app-dishes
+            [type]="dishTypes.DESSERTS"
+            [allDishes]="dishes"
+          ></app-dishes>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-drinks"
+          role="tabpanel"
+          aria-labelledby="pills-drinks-tab"
+          tabindex="0"
+        >
+          <app-dishes
+            [type]="dishTypes.DRINKS"
+            [allDishes]="dishes"
+          ></app-dishes>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

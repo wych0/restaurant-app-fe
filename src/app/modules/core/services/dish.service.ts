@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import {
   CreateDish,
   CreateDishResponse,
+  Dish,
   EditDish,
   GetDishesParams,
   GetDishesResponse,
@@ -43,6 +44,10 @@ export class DishService {
     return this.http.get<GetDishesResponse>(`${this.apiUrl}`, {
       params,
     });
+  }
+
+  getAllToDisplay(): Observable<Dish[]> {
+    return this.http.get<Dish[]>(`${this.apiUrl}/to-display`);
   }
 
   create(body: CreateDish): Observable<CreateDishResponse> {

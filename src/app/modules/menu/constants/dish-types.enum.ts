@@ -1,8 +1,8 @@
 export enum DishTypes {
   PIZZA = 'Pizza',
-  SOUPS = 'Soups',
-  APPETIZERS = 'Appetizers',
+  SOUPS = 'Soup',
+  APPETIZERS = 'Appetizer',
   PASTA = 'Pasta',
-  DESSERTS = 'Desserts',
-  DRINKS = 'Drinks',
+  DESSERTS = 'Dessert',
+  DRINKS = 'Drink',
 }
