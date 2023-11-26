@@ -1,1 +1,276 @@
-<p>workers works!</p>
+<div class="container-workers mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="d-flex align-items-center pb-2 pt-3">
+    <div class="form-field filter-field">
+      <label class="form-label" for="filterInput">Filter workers</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Filter by email"
+        id="filterInput"
+        [formControl]="emailFilter"
+      />
+    </div>
+
+    <button
+      class="btn btn-primary mt-auto"
+      data-bs-toggle="modal"
+      data-bs-target="#workerModal"
+      (click)="resetValues()"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Add worker
+    </button>
+  </div>
+  <div class="container-table">
+    <table mat-table [dataSource]="data" matSort>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.email }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+          &nbsp;
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            class="btn btn-danger"
+            (click)="setDeletingWorker(element)"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmActionModal"
+          >
+            Delete
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplay"
+        class="element-row"
+      ></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          *ngIf="!isLoadingResults"
+          class="mat-cell p-2 text-primary"
+          colspan="4"
+        >
+          <h6>Couldn't find any workers</h6>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator
+    [length]="resultsLength"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10]"
+  ></mat-paginator>
+</div>
+
+<div
+  class="modal fade"
+  id="workerModal"
+  tabindex="-1"
+  aria-labelledby="workerModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="workerModalLabel">
+          Add worker
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ng-container
+          *ngIf="actionStatus != 'Success' && actionStatus != 'Loading'"
+        >
+          <form
+            appFocusInvalidInput
+            [formGroup]="workerForm"
+            class="d-flex flex-wrap justify-content-center"
+            id="workerForm"
+            (submit)="onSubmit()"
+          >
+            <div *ngIf="error" class="alert mb-1" role="alert">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-x-square-fill text-danger m-0"></i>
+                <span class="text-error">{{ error }} </span>
+              </div>
+            </div>
+            <div class="form-field input-field">
+              <label class="form-label" for="emailInput">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="email"
+                placeholder="Enter worker email"
+                id="emailInput"
+                [class.is-invalid]="
+                  checkControlInvalid(workerForm.controls.email)
+                "
+              />
+              <div
+                *ngIf="checkControlInvalid(workerForm.controls.email)"
+                class="text-danger"
+              >
+                <small> {{ getErrorMessage(workerForm.controls.email) }}</small>
+              </div>
+            </div>
+            <div class="form-field input-field">
+              <label class="form-label" for="passwordInput">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Enter worker password"
+                id="passwordInput"
+                [class.is-invalid]="
+                  checkControlInvalid(workerForm.controls.password)
+                "
+              />
+              <div
+                *ngIf="checkControlInvalid(workerForm.controls.password)"
+                class="text-danger"
+              >
+                <small>
+                  {{ getErrorMessage(workerForm.controls.password) }}</small
+                >
+              </div>
+            </div>
+            <div class="form-field input-field">
+              <label class="form-label" for="repeatPasswordInput"
+                >Repeat password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                formControlName="repeatPassword"
+                placeholder="Repeat worker password"
+                id="repeatPasswordInput"
+                [class.is-invalid]="
+                  checkControlInvalid(workerForm.controls.repeatPassword)
+                "
+              />
+              <div
+                *ngIf="checkControlInvalid(workerForm.controls.repeatPassword)"
+                class="text-danger"
+              >
+                <small>
+                  {{
+                    getErrorMessage(workerForm.controls.repeatPassword)
+                  }}</small
+                >
+              </div>
+            </div>
+          </form>
+        </ng-container>
+        <ng-container
+          *ngIf="actionStatus === 'Success' || actionStatus === 'Loading'"
+          ><div
+            class="container info d-flex flex-wrap justify-content-center align-items-center"
+          >
+            <div
+              class="container info-status d-flex flex-wrap justify-content-center text-center mb-5"
+            >
+              <div class="spinner d-flex justify-content-center">
+                <app-spinner [size]="spinnerSize" class="mb-4"></app-spinner>
+              </div>
+
+              <i
+                *ngIf="actionStatus === 'Success'"
+                class="bi bi-check-square-fill text-primary status"
+              ></i>
+
+              <h1 class="info-status mb-0">
+                {{
+                  actionStatus === "Success"
+                    ? "Worker created!"
+                    : "Worker creating..."
+                }}
+              </h1>
+            </div>
+          </div></ng-container
+        >
+      </div>
+      <div class="modal-footer">
+        <button
+          *ngIf="actionStatus !== 'Success' && actionStatus !== 'Loading'"
+          type="submit"
+          form="workerForm"
+          class="btn btn-primary text-capitalize btn-action"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="confirmActionModal"
+  tabindex="-1"
+  aria-labelledby="confrimActionModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="confrimActionModalLabel">
+          Delete worker
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <figure>
+          <blockquote class="blockquote">
+            <h6 *ngIf="deletingWorker">
+              Are you sure you want delete worker ({{ deletingWorker.email }})?
+            </h6>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            You can't undo this action.
+          </figcaption>
+        </figure>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-dismiss="modal"
+        >
+          No, Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="deleteWorker()"
+        >
+          Yes, delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

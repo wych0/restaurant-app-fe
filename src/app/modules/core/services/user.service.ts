@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { MessageResponse } from '../models/auth.model';
-import { ChangePasswordData } from '../models/user.model';
+import {
+  ChangePasswordData,
+  GetWorkersParams,
+  GetWorkersResponse,
+  WorkerData,
+} from '../models/user.model';
 import {
   GetReservationsParams,
   GetUserReservationsResponse,
@@ -23,6 +28,34 @@ export class UserService {
       `${this.apiUrl}/change-password`,
       body
     );
+  }
+
+  deleteWorker(id: string): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.apiUrl}/${id}`);
+  }
+
+  createWorker(body: WorkerData): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.apiUrl}`, body);
+  }
+
+  getWorkers(paramsObject: GetWorkersParams): Observable<GetWorkersResponse> {
+    let params = new HttpParams({
+      fromObject: {
+        page: paramsObject.page,
+        size: paramsObject.size,
+      },
+    });
+    if (paramsObject.sort) {
+      params = params
+        .append('sort', paramsObject.sort)
+        .append('dir', paramsObject.dir);
+    }
+    if (paramsObject.term) {
+      params = params.append('term', paramsObject.term);
+    }
+    return this.http.get<GetWorkersResponse>(`${this.apiUrl}`, {
+      params,
+    });
   }
 
   getPersonalData(): Observable<PersonalData> {

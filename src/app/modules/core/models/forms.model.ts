@@ -27,6 +27,12 @@ export interface ChangePasswordForm {
   repeatNewPassword: FormControl<string>;
 }
 
+export interface WorkerForm {
+  email: FormControl<string>;
+  password: FormControl<string>;
+  repeatPassword: FormControl<string>;
+}
+
 export interface ForgotPasswordForm {
   email: FormControl<string>;
 }

@@ -49,7 +49,6 @@ import { badgeClasses } from 'src/app/modules/shared/tools/badge-classes';
 })
 export class DishesComponent implements AfterViewInit, OnDestroy {
   columnsToDisplay: string[] = [
-    'id',
     'name',
     'price',
     'type',

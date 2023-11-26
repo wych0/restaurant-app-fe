@@ -1,8 +1,13 @@
 .container-reservations,
-.container-dishes {
+.container-dishes,
+.container-workers {
   margin-top: 24px;
   position: relative;
   min-width: 1100px;
+}
+
+.container-workers {
+  min-width: 500px;
 }
 
 .container-table {
@@ -32,10 +37,6 @@ table {
 
 tr.detail-row {
   height: 0;
-}
-
-.element-row td {
-  border-bottom-width: 0;
 }
 
 .element-detail {
@@ -108,4 +109,8 @@ h3 {
 
 .form-check {
   min-height: 38px;
+}
+
+.btn-action {
+  min-width: 90px;
 }

@@ -9,6 +9,7 @@ import {
   ChangePasswordForm,
   CancelReservationForm,
   DishForm,
+  WorkerForm,
 } from '../models/forms.model';
 import { repeatPasswordValidator } from '../../shared/validators/password.validator';
 import { priveValidator } from '../../shared/validators/price.validator';
@@ -150,6 +151,28 @@ export class FormService {
       isVegan: new FormControl(false, { nonNullable: true }),
       isDisplayed: new FormControl(false, { nonNullable: true }),
     });
+  }
+
+  initWorkerForm(): FormGroup<WorkerForm> {
+    return new FormGroup(
+      {
+        email: new FormControl('', {
+          validators: [Validators.required, Validators.email],
+          nonNullable: true,
+        }),
+        password: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(8)],
+          nonNullable: true,
+        }),
+        repeatPassword: new FormControl('', {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+      },
+      {
+        validators: [repeatPasswordValidator('password', 'repeatPassword')],
+      }
+    );
   }
 
   getErrorMessage(control: FormControl, name?: string) {

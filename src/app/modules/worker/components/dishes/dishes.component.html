@@ -29,12 +29,12 @@
           (ngModelChange)="applyFilter('type')"
         >
           <option value="">All types</option>
-          <option value="pizza">Pizza</option>
-          <option value="appetizer">Appetizers</option>
-          <option value="pasta">Pasta</option>
-          <option value="soup">Soups</option>
-          <option value="dessert">Desserts</option>
-          <option value="drink">Drinks</option>
+          <option value="Pizza">Pizza</option>
+          <option value="Appetizer">Appetizers</option>
+          <option value="Pasta">Pasta</option>
+          <option value="Soup">Soups</option>
+          <option value="Dessert">Desserts</option>
+          <option value="Drink">Drinks</option>
         </select>
       </div>
     </div>
@@ -63,12 +63,6 @@
   </div>
   <div class="container-table">
     <table mat-table [dataSource]="data" multiTemplateDataRows matSort>
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.id }}
-        </td>
-      </ng-container>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let element">
@@ -76,7 +70,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price (PLN)</th>
         <td mat-cell *matCellDef="let element">
           {{ element.price }}
         </td>
@@ -329,7 +323,7 @@
               </div>
             </div>
             <div class="form-field input-field">
-              <label class="form-label" for="priceInput">Price</label>
+              <label class="form-label" for="priceInput">Price (PLN)</label>
               <input
                 type="number"
                 class="form-control"
@@ -444,7 +438,7 @@
           *ngIf="!actionStatus"
           type="submit"
           form="dishForm"
-          class="btn btn-primary text-capitalize"
+          class="btn btn-primary text-capitalize btn-action"
         >
           {{ action }}
         </button>
