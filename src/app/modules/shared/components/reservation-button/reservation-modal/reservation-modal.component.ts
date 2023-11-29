@@ -21,6 +21,7 @@ import {
 import { Size } from 'src/app/modules/core/models/spinner.model';
 import { UserService } from 'src/app/modules/core/services/user.service';
 import { User } from 'src/app/modules/core/models/user.model';
+import { calculateEndHour } from '../../../tools/date-formatter';
 
 @Component({
   selector: 'app-reservation-modal',
@@ -41,6 +42,7 @@ export class ReservationModalComponent implements OnInit {
     this.formService.initReservationForm();
   selectedDate: Date | null = null;
   selectedPeopleNumber: number = 1;
+  selectedDuration: number = 2;
   selectedHour: string | null = null;
   formatedDate: string | null = null;
   minDate: Date = new Date();
@@ -64,6 +66,7 @@ export class ReservationModalComponent implements OnInit {
       const params: AvailableHoursParams = {
         date: this.selectedDate,
         peopleNumber: this.selectedPeopleNumber,
+        duration: this.selectedDuration,
       };
       this.reservationService.getAvailableHours(params).subscribe({
         next: (availableHours) => {
@@ -120,6 +123,7 @@ export class ReservationModalComponent implements OnInit {
       const reservation: CreateReservation = {
         date: this.selectedDate || new Date(),
         hour: this.selectedHour || '',
+        duration: this.selectedDuration,
         peopleNumber: this.selectedPeopleNumber,
         requests: formData.requests,
         personalData,
@@ -151,6 +155,7 @@ export class ReservationModalComponent implements OnInit {
     this.creatingStatus = null;
     this.creatingMessage = null;
     this.selectedPeopleNumber = 1;
+    this.selectedDuration = 2;
     this.availableHours = [];
     this.createdReservation = null;
     this.reservationForm.controls.email.enable();
@@ -163,5 +168,9 @@ export class ReservationModalComponent implements OnInit {
 
   checkControlInvalid(control: FormControl): boolean {
     return this.formService.controlInvalid(control, this.submitted);
+  }
+
+  getEndHour(): string {
+    return calculateEndHour(this.selectedHour!, this.selectedDuration);
   }
 }

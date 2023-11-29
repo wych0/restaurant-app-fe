@@ -12,6 +12,7 @@ import { ReservationDetails } from 'src/app/modules/core/models/reservation.mode
 import { Size } from 'src/app/modules/core/models/spinner.model';
 import { ReservationService } from 'src/app/modules/core/services/reservation.service';
 import { fadeIn } from 'src/app/modules/shared/constants/animations';
+import { calculateEndHour } from 'src/app/modules/shared/tools/date-formatter';
 
 @Component({
   selector: 'app-reservation-details-modal',
@@ -92,5 +93,9 @@ export class ReservationDetailsModalComponent implements AfterViewInit {
         this.getReservationDetails(this.reservationId);
       },
     });
+  }
+
+  getEndHour(hour: string, duration: number): string {
+    return calculateEndHour(hour, duration);
   }
 }

@@ -32,7 +32,10 @@ import { Size } from 'src/app/modules/core/models/spinner.model';
 import { FormService } from 'src/app/modules/core/services/form-service';
 import { ReservationService } from 'src/app/modules/core/services/reservation.service';
 import { badgeClasses } from 'src/app/modules/shared/tools/badge-classes';
-import { toDateWithHour } from 'src/app/modules/shared/tools/date-formatter';
+import {
+  calculateEndHour,
+  toDateWithHour,
+} from 'src/app/modules/shared/tools/date-formatter';
 
 @Component({
   selector: 'app-reservations',
@@ -205,6 +208,10 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy {
           });
       }
     }
+  }
+
+  getEndHour(hour: string, duration: number): string {
+    return calculateEndHour(hour, duration);
   }
 
   resetValues(): void {

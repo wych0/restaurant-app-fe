@@ -13,7 +13,9 @@
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
           <td mat-cell *matCellDef="let element">
-            {{ formatDate(element.date, element.hour) }}
+            {{ formatDate(element.date, element.hour) }}-{{
+              getEndHour(element.hour, element.duration)
+            }}
           </td>
         </ng-container>
 

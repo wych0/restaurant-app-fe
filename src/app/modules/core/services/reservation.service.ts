@@ -87,7 +87,8 @@ export class ReservationService {
     const params = new HttpParams({
       fromObject: {
         date: paramsObject.date.toString(),
-        peopleNumber: paramsObject.peopleNumber.toString(),
+        peopleNumber: paramsObject.peopleNumber,
+        duration: paramsObject.duration,
       },
     });
     return this.http.get<Hour[]>(`${this.apiUrl}/availableHours`, {

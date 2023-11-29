@@ -38,25 +38,48 @@
             <div
               class="right-side d-flex flex-wrap justify-content-center align-items-start"
             >
-              <div class="input-group mb-2">
-                <label class="input-group-text" for="peopleSelect"
-                  ><i class="bi bi-person-fill text-primary"></i
-                ></label>
-                <select
-                  class="form-select"
-                  id="peopleSelect"
-                  aria-label="People number"
-                  [(ngModel)]="selectedPeopleNumber"
-                  (ngModelChange)="dataSelected()"
-                >
-                  <option value="1" selected>One People</option>
-                  <option value="2">Two People</option>
-                  <option value="3">Three People</option>
-                  <option value="4">Four People</option>
-                  <option value="5">Five People</option>
-                  <option value="6">Six people</option>
-                </select>
+              <div
+                class="d-flex flex-wrap container-duration-people-select justify-content-center"
+              >
+                <div class="input-group mb-2">
+                  <label class="input-group-text" for="peopleSelect"
+                    ><i class="bi bi-person-fill text-primary"></i
+                  ></label>
+                  <select
+                    class="form-select"
+                    id="peopleSelect"
+                    aria-label="People number"
+                    [(ngModel)]="selectedPeopleNumber"
+                    (ngModelChange)="dataSelected()"
+                  >
+                    <option value="1" selected>One People</option>
+                    <option value="2">Two People</option>
+                    <option value="3">Three People</option>
+                    <option value="4">Four People</option>
+                    <option value="5">Five People</option>
+                    <option value="6">Six people</option>
+                  </select>
+                </div>
+                <div class="input-group duration mb-2">
+                  <label class="input-group-text" for="durationSelect"
+                    ><i class="bi bi-hourglass-top text-primary"></i
+                  ></label>
+                  <select
+                    class="form-select"
+                    id="durationSelect"
+                    aria-label="Duration"
+                    [(ngModel)]="selectedDuration"
+                    (ngModelChange)="dataSelected()"
+                  >
+                    <option value="2" selected>Two hours</option>
+                    <option value="3">Three hours</option>
+                    <option value="4">Tour hours</option>
+                    <option value="5">Five hours</option>
+                    <option value="6">Six hours</option>
+                  </select>
+                </div>
               </div>
+
               <ng-container *ngIf="!selectedDate">
                 <div class="container-date-info text-center" @fadeIn>
                   <h5>Please select a date</h5>
@@ -106,6 +129,10 @@
                 at
                 <strong class="reservation-details-strong">{{
                   selectedHour
+                }}</strong>
+                to
+                <strong class="reservation-details-strong">{{
+                  getEndHour()
                 }}</strong
                 >.
               </span>
@@ -343,7 +370,8 @@
                   }}{{ createdReservation.personalData.phone }}
                 </h6>
                 <h6 class="text-primary mb-0">
-                  on {{ formatedDate }} at {{ createdReservation.hour }}
+                  on {{ formatedDate }} at {{ createdReservation.hour }} to
+                  {{ getEndHour() }}
                 </h6>
                 <h6 class="text-primary">
                   for

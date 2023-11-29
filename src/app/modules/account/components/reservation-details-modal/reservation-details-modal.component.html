@@ -55,7 +55,10 @@
               For
               <strong>{{ reservationDetails.peopleNumber }} people</strong> on
               <strong>{{ formatedDate }}</strong> at
-              <strong>{{ reservationDetails.hour }}</strong
+              <strong>{{ reservationDetails.hour }}</strong> to
+              <strong>{{
+                getEndHour(reservationDetails.hour, reservationDetails.duration)
+              }}</strong
               >, table number
               <strong>{{ reservationDetails.tableNumber }}</strong
               >.

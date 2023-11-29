@@ -18,7 +18,10 @@ import { Size } from '../../../core/models/spinner.model';
 import { format } from 'date-fns';
 import { ReservationDetailsModalComponent } from '../reservation-details-modal/reservation-details-modal.component';
 import { UserService } from 'src/app/modules/core/services/user.service';
-import { toDateWithHour } from 'src/app/modules/shared/tools/date-formatter';
+import {
+  calculateEndHour,
+  toDateWithHour,
+} from 'src/app/modules/shared/tools/date-formatter';
 import { badgeClasses } from 'src/app/modules/shared/tools/badge-classes';
 
 @Component({
@@ -116,5 +119,9 @@ export class ReservationsComponent implements AfterViewInit, OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.reservationCreatedSub.unsubscribe();
     this.reservationsDataSub.unsubscribe();
+  }
+
+  getEndHour(hour: string, duration: number): string {
+    return calculateEndHour(hour, duration);
   }
 }

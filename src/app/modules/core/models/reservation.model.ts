@@ -4,6 +4,7 @@ export interface Reservation {
   id: string;
   date: Date;
   hour: string;
+  duration: number;
   table: number;
   status: string;
   requests?: string;
@@ -22,6 +23,7 @@ export interface UserReservation {
   date: Date;
   status: string;
   hour: string;
+  duration: number;
 }
 
 export interface ReservationDetails {
@@ -29,6 +31,7 @@ export interface ReservationDetails {
   date: Date;
   status: string;
   hour: string;
+  duration: number;
   peopleNumber: number;
   tableNumber: number;
   personalData: PersonalData;
@@ -78,6 +81,7 @@ export interface CancelReservation {
 export interface AvailableHoursParams {
   date: Date;
   peopleNumber: number;
+  duration: number;
 }
 
 export interface AdditionalOptions {
