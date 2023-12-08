@@ -5,7 +5,14 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -47,16 +54,9 @@ import { badgeClasses } from 'src/app/modules/shared/tools/badge-classes';
     ]),
   ],
 })
-export class DishesComponent implements AfterViewInit, OnDestroy {
-  columnsToDisplay: string[] = [
-    'name',
-    'price',
-    'type',
-    'displayed',
-    'edit',
-    'delete',
-    'expand',
-  ];
+export class DishesComponent implements AfterViewInit, OnDestroy, OnInit {
+  @Input({ required: true }) role!: string;
+  columnsToDisplay: string[] = [];
   expandedElement!: Dish | null;
   private dishesDataSub: Subscription = new Subscription();
   private nameFilterSub: Subscription = new Subscription();
@@ -81,6 +81,14 @@ export class DishesComponent implements AfterViewInit, OnDestroy {
     private notifierService: NotifierService,
     private formService: FormService
   ) {}
+
+  ngOnInit(): void {
+    this.columnsToDisplay = ['name', 'price', 'type', 'displayed', 'edit'];
+    if (this.role === 'MANAGER') {
+      this.columnsToDisplay.push('delete');
+    }
+    this.columnsToDisplay.push('expand');
+  }
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));

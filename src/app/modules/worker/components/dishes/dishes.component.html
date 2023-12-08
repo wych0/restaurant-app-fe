@@ -108,7 +108,7 @@
           </button>
         </td>
       </ng-container>
-      <ng-container matColumnDef="delete">
+      <ng-container matColumnDef="delete" *ngIf="role === 'MANAGER'">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">
           &nbsp;
         </th>
